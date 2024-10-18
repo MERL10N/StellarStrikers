@@ -7,7 +7,7 @@ int main()
     InitWindow(width, height, "CS100 Final Project");
     SetTargetFPS(60);
 
-    Texture2D texture = LoadTexture(ASSETS_PATH"test.png"); // Check README.md for how this works
+    Texture2D texture = LoadTexture(ASSETS_PATH"test.png"); 
 
     while (!WindowShouldClose())
     {

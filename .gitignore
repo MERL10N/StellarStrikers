@@ -8,3 +8,10 @@ bin/
 build/
 out/
 CMakeSettings.json
+_deps/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+CPackConfig.cmake
+CPackSourceConfig.cmake
+Makefile
