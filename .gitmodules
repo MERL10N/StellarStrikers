@@ -1,3 +1,6 @@
 [submodule "ThirdParty/raylib"]
 	path = ThirdParty/raylib
 	url = https://github.com/raysan5/raylib.git
+[submodule "ThirdParty/googletest"]
+	path = ThirdParty/googletest
+	url = https://github.com/google/googletest.git
