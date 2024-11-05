@@ -52,6 +52,15 @@
 
 ## Class Diagram
  > Include a **class diagram(s)** for your project and a **description** of the diagram(s). Your class diagram(s) should include all the main classes you plan for the project. This should be in sufficient detail that another group could pick up the project this point and successfully complete it. Use proper UML notation (as discussed in the course slides).
+<img width="527" alt="image" src="https://github.com/user-attachments/assets/c6ace61d-cbaf-4bea-aca3-003c4c8dcde8">
+- Main Menu is where the program will start and it will generate the gameManager as well as provide a way to exit the game window or start the game
+- GameManager will contain all components of the actual gameplay classes such as all subsequent menus + navigations and gameplay elements such as players and enemies
+- scoreboard is a part of the GameManager and displays scores for the round as well as cumulative score
+- PauseMenu is a part of the gameManager and will pause the game and provide options to resume, restart, and quit the game
+- Player is the user and is a part of the gameManager. Player will give details on the position and status of the user
+- Enemy is a part of the gameManager. Enemy will contain details on the position and status of an individual enemy
+-weapon is an aggregate of player and enemy and contains details on the statistics and operations of the attack
+-PowerUp is a dependency of Player and contains details on various powerups that can be applied to the player. It keeps track of the position of powerUps as well
  
  > ## Phase III
  > You will need to schedule a check-in for the second scrum meeting with the same reader you had your first scrum meeting with (using Calendly). Your entire team must be present. This meeting will occur on week 8 during lab time.
