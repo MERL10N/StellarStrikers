@@ -41,7 +41,9 @@
 
 
 ### Screen Layouts
-
+<img width="512" alt="image" src="https://github.com/user-attachments/assets/e9005732-0534-41f9-b277-b469392c74d5">
+<img width="512" alt="image" src="https://github.com/user-attachments/assets/17a5fd80-d160-4da7-8273-e46ce0e69811">
+<img width="512" alt="image" src="https://github.com/user-attachments/assets/250e2607-0016-400e-b1d3-e60551d8d791">
 
 ## Class Diagram
 
