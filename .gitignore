@@ -16,3 +16,5 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 Makefile
 CS100_FinalProject
+*.a
+CS100_FinalProject_tests

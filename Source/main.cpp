@@ -20,7 +20,7 @@ int main()
 
         const char* text = "CS 100 Final Project";
         const Vector2 text_size = MeasureTextEx(GetFontDefault(), text, 20, 1);
-        DrawText(text, width / 2 - text_size.x / 2, texture_y + texture.height + text_size.y + 10, 20, BLACK);
+        DrawText(text, width * 0.5f - text_size.x * 0.5f, texture_y + texture.height + text_size.y + 10, 20, BLACK);
 
         EndDrawing();
     }
