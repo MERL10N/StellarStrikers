@@ -16,7 +16,23 @@ Player::~Player(){
 }
 
 void Player::draw(){
-    DrawTextureEx(playerSprite, position, rotation, 0.05, WHITE);
+    // Get the center of the player sprite
+    Vector2 center = { playerSprite.width * 0.025f, playerSprite.height * 0.025f };
+
+    // Define the destination rectangle for positioning and scaling
+    Rectangle destination = 
+    {
+        position.x,                          
+        position.y,                         
+        playerSprite.width * 0.05f,          
+        playerSprite.height * 0.05f         
+    };
+
+    // Define the source rectangle for the texture
+    Rectangle source = { 0.0f, 0.0f, (float)playerSprite.width, (float)playerSprite.height };
+
+    // Draw the player sprite with rotation around its center
+    DrawTexturePro(playerSprite, source, destination, center, rotation, WHITE);
 }
 
 void Player::moveForward(){
@@ -25,7 +41,8 @@ void Player::moveForward(){
 }
 
 void Player::moveBackward(){
-    position.y += 2.0f; //placeholder may not exist
+    position.x -= sin(rotation * DEG2RAD) * moveSpeed;
+    position.y += cos(rotation * DEG2RAD) * moveSpeed;
 }
 
 void Player::moveLeft(){
