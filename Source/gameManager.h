@@ -9,5 +9,6 @@ class Game{
         void update();
         void handleInput();
     private: 
+        void DeleteInactiveBullets();
         Player player;
 };

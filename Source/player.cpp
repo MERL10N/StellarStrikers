@@ -8,10 +8,39 @@ Player::Player(){
     rotation = 0.0f;
     rotationSpeed = 4.0f;
     moveSpeed = 3.0f;
+    lastFireTime = 0.0;
 }
 
 Player::~Player(){
     UnloadTexture(playerSprite);
+}
+
+void Player::moveForward(){
+    position.x += sin(rotation * DEG2RAD) * moveSpeed;
+    position.y -= cos(rotation * DEG2RAD) * moveSpeed;
+}
+
+void Player::moveBackward(){
+    position.x -= sin(rotation * DEG2RAD) * moveSpeed;
+    position.y += cos(rotation * DEG2RAD) * moveSpeed;
+}
+
+void Player::moveLeft(){
+    rotation -= rotationSpeed;
+    if(rotation < 0) rotation += 360.0f;
+}
+
+void Player::moveRight(){
+    rotation += rotationSpeed;
+    if(rotation >= 360.0f) rotation -= 360.0f;
+}
+
+void Player::fireBullet(){
+    if(GetTime() - lastFireTime >= 0.35){
+        Vector2 bulletPosition = {position.x, position.y};
+        bulletsVector.push_back(bullet(bulletPosition, rotation));
+        lastFireTime = GetTime();
+    }
 }
 
 void Player::draw(){
@@ -33,25 +62,3 @@ void Player::draw(){
     // Draw the player sprite with rotation around its center
     DrawTexturePro(playerSprite, source, destination, center, rotation, WHITE);
 }
-
-void Player::moveForward(){
-    position.x += sin(rotation * DEG2RAD) * moveSpeed;
-    position.y -= cos(rotation * DEG2RAD) * moveSpeed;
-}
-
-void Player::moveBackward(){
-    position.x -= sin(rotation * DEG2RAD) * moveSpeed;
-    position.y += cos(rotation * DEG2RAD) * moveSpeed;
-}
-
-void Player::moveLeft(){
-    rotation -= rotationSpeed;
-    if(rotation < 0) rotation += 360.0f;
-}
-
-void Player::moveRight(){
-    rotation += rotationSpeed;
-    if(rotation >= 360.0f) rotation -= 360.0f;
-
-}
-
