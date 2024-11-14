@@ -13,10 +13,8 @@ class Player{
     private:
         Texture2D playerSprite;
         Vector2 position;
-        Vector2 speed;
         float moveSpeed;
         float rotation;
         float rotationSpeed;
-        //float angle = 0.0f;
-        //float rotationSpeed = 3.0f;
+
 };

@@ -5,7 +5,6 @@ Player::Player(){
     playerSprite = LoadTexture(ASSETS_PATH "player.png"); 
     position.x = 100.f;
     position.y = 250.f;
-    speed = {0.0f, 0.0f};
     rotation = 0.0f;
     rotationSpeed = 4.0f;
     moveSpeed = 3.0f;
