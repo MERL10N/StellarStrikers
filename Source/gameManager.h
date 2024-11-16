@@ -10,4 +10,9 @@ class Game{
         void handleInput();
     private: 
         Player player;
+        int gamepad;
+        float leftStickAxisX;
+        float leftStickAxisY;
+        float leftStickDeadzoneX;
+        float leftStickDeadzoneY;
 };
