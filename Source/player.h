@@ -1,5 +1,7 @@
 #pragma once
 #include <raylib.h>
+#include "bullet.h"
+#include <vector>
 
 class Player
 {
@@ -12,6 +14,8 @@ class Player
         void moveForward();
         void moveBackward();
         void moveWithController(const float &axisX, const float &axisY);
+        void fireBullet();
+        std::vector<bullet> bulletsVector;
     private:
         Texture2D playerSprite;
         Vector2 position;
@@ -21,4 +25,5 @@ class Player
         float targetRotation;
         float rotationSpeedMultiplier;
         float angleDifference;
+        double lastFireTime;
 };

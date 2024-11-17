@@ -10,7 +10,8 @@ Player::Player()
   targetRotation(0.0f),
   playerSprite(LoadTexture(ASSETS_PATH"player.png")),
   rotationSpeedMultiplier(10.f),
-  angleDifference(0.0f)
+  angleDifference(0.0f),
+  lastFireTime(0.0)
 {
 }
 
@@ -62,7 +63,6 @@ void Player::moveRight()
 {
     rotation += rotationSpeed;
     if(rotation >= 360.0f) rotation -= 360.0f;
-
 }
 
 void Player::moveWithController(const float &axisX, const float &axisY)
@@ -101,3 +101,11 @@ void Player::moveWithController(const float &axisX, const float &axisY)
     position.y -= cos(rotation * DEG2RAD) * moveSpeed;
 }
 
+void Player::fireBullet()
+{
+    if(GetTime() - lastFireTime >= 0.35){
+        Vector2 bulletPosition = {position.x, position.y};
+        bulletsVector.push_back(bullet(bulletPosition, rotation));
+        lastFireTime = GetTime();
+    }
+}

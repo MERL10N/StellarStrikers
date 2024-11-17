@@ -23,6 +23,7 @@ int main()
         ClearBackground(RAYWHITE);
 
         game.handleInput();
+        game.update();
 
         DrawTextureEx(background, Vector2{0, 0}, 0.0, scale, WHITE);
         game.draw();
