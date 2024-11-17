@@ -18,4 +18,7 @@ class Player
         float moveSpeed;
         float rotation;
         float rotationSpeed;
+        float targetRotation;
+        float rotationSpeedMultiplier;
+        float angleDifference;
 };

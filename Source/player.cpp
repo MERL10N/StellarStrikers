@@ -1,14 +1,17 @@
 #include "player.h"
 #include <cmath>
+#include <iostream>
 
 Player::Player()
+: position(Vector2{100.f, 250.f}),
+  rotation(0.0f),
+  rotationSpeed(4.0f),
+  moveSpeed(3.0f),
+  targetRotation(0.0f),
+  playerSprite(LoadTexture(ASSETS_PATH"player.png")),
+  rotationSpeedMultiplier(10.f),
+  angleDifference(0.0f)
 {
-    playerSprite = LoadTexture(ASSETS_PATH "player.png"); 
-    position.x = 100.f;
-    position.y = 250.f;
-    rotation = 0.0f;
-    rotationSpeed = 4.0f;
-    moveSpeed = 3.0f;
 }
 
 Player::~Player()
@@ -64,12 +67,34 @@ void Player::moveRight()
 
 void Player::moveWithController(const float &axisX, const float &axisY)
 {
+   // Update rotation only when the left thumbstick is in use
     if (axisX != 0.0f || axisY != 0.0f)
     {
-        rotation = atan2(axisY, axisX) * RAD2DEG + 90.f;
+        // Compute the target angle
+        targetRotation = atan2(axisY, axisX) * RAD2DEG + 90.f;    
+
+        // Keep targetRotation within the range [0,360)
+        if (targetRotation < 0)
+            targetRotation += 360.f;
+
+        if (targetRotation >= 360.0f)
+            targetRotation -= 360.0f;
+
+        // Compute the shortest angle difference and keep it within the range [0, 360)
+        angleDifference = fmod((targetRotation - rotation) + 360.f, 360.f);
+        if (angleDifference > 180.0f)
+           angleDifference -= 360.0f;
         
-        if(rotation < 0) 
-            rotation += 360.0f;
+
+        rotation += (angleDifference) / rotationSpeedMultiplier;
+ 
+        // Keep rotation within the range [0,360)
+        if (rotation < 0)
+            rotation += 360.f;
+
+        if (rotation >= 360.0f)
+            rotation -= 360.0f;
+
     }
 
     position.x += sin(rotation * DEG2RAD) * moveSpeed;
