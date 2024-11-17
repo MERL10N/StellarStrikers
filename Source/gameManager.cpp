@@ -70,9 +70,10 @@ void Game::handleInput()
         }
 
         // Get the input of the right trigger (Xbox) or R2 Button (Playstation)
-        if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_TRIGGER_2))
+        if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_TRIGGER_2))
         {
             // Player will shoot
+            player.fireBullet();
         }
 
     }
