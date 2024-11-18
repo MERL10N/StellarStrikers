@@ -9,5 +9,11 @@ class Game{
         void update();
         void handleInput();
     private: 
+        void DeleteInactiveBullets();
         Player player;
+        int gamepad;
+        float leftStickAxisX;
+        float leftStickAxisY;
+        float leftStickDeadzoneX;
+        float leftStickDeadzoneY;
 };
