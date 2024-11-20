@@ -22,7 +22,10 @@ HealthPowerUp::HealthPowerUp(const Vector2 &position, const int &healthBoost)
 
 HealthPowerUp::~HealthPowerUp()
 {
+  if (texture.id > 0)
+  {
     UnloadTexture(texture);
+  }
 }
 
 void HealthPowerUp::Draw()
@@ -38,7 +41,7 @@ Vector2 HealthPowerUp::getPosition()
    return position;
 }
 
-Rectangle HealthPowerUp::getRect()
+Rectangle HealthPowerUp::getDestination()
 {
   return destinationRect;
 }

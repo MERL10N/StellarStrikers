@@ -17,7 +17,7 @@ class HealthPowerUp : public Powerup
     int getHealthBoost();
     Vector2 getPosition();
 
-    Rectangle getRect();
+    Rectangle getDestination() override;
 
   private:
     Vector2 position;

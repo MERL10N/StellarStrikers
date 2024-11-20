@@ -26,7 +26,7 @@ void Player::draw()
     Vector2 center = { playerSprite.width * 0.025f, playerSprite.height * 0.025f };
 
     // Define the destination rectangle for positioning and scaling
-    Rectangle destination = 
+    destination = 
     {
         position.x,                          
         position.y,                         
@@ -108,4 +108,9 @@ void Player::fireBullet()
         bulletsVector.push_back(bullet(bulletPosition, rotation));
         lastFireTime = GetTime();
     }
+}
+
+Rectangle Player::getDestination()
+{
+    return destination;
 }

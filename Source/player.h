@@ -15,6 +15,7 @@ class Player
         void moveBackward();
         void moveWithController(const float &axisX, const float &axisY);
         void fireBullet();
+        Rectangle getDestination();
         std::vector<bullet> bulletsVector;
     private:
         Texture2D playerSprite;
@@ -25,5 +26,6 @@ class Player
         float targetRotation;
         float rotationSpeedMultiplier;
         float angleDifference;
+        Rectangle destination;
         double lastFireTime;
 };

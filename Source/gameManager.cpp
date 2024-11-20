@@ -14,7 +14,8 @@ Game::Game()
 
 Game::~Game()
 {
-    delete powerup;
+    if (powerup)
+        delete powerup;
 }
 
 void Game::update()
@@ -24,11 +25,29 @@ void Game::update()
         bullet.update(GetFrameTime());
     }
     DeleteInactiveBullets();
+
+    // Check if powerup is not nullptr and it collides with player
+    if (powerup && CheckCollisionRecs(player.getDestination(), powerup->getDestination()))
+    {
+        delete powerup;
+        powerup = nullptr;
+
+        // TODO: Recover health of the player back to full health
+
+        /*
+         *   example:
+         *   player.setHealth(100)
+         * */
+    }
 }
 
 void Game::draw()
 {
-    powerup->Draw();
+    // Check if powerup is not nullptr
+    if (powerup)
+    {
+        powerup->Draw();
+    }
     player.draw();
     for(auto& bullet : player.bulletsVector)
     {
