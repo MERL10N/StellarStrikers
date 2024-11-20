@@ -11,12 +11,10 @@ class HealthPowerUp : public Powerup
 {
   public:
     HealthPowerUp(); // Default Constructor
-    HealthPowerUp(const Vector2& position, const int &healthBoost); // Overloaded constructo
-    ~HealthPowerUp();
+    HealthPowerUp(const Vector2& position, const float &scale, const char* assetPath); // Overloaded constructor
+    virtual ~HealthPowerUp();
     void Draw() override;
-    int getHealthBoost();
-    Vector2 getPosition();
-
+    Vector2 getPosition() override;
     Rectangle getDestination() override;
 
   private:

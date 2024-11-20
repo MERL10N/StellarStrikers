@@ -6,16 +6,14 @@
 
 HealthPowerUp::HealthPowerUp()
     : position(Vector2{((float)GetScreenWidth() - (float)texture.width) * 0.25f, ((float)GetScreenHeight() - (float)texture.height)* 0.25f}),
-      healthBoost(20.0f),
       texture(LoadTexture(ASSETS_PATH"healthpowerup.png")),
       scale(0.25f)
 {
 }
 
-HealthPowerUp::HealthPowerUp(const Vector2 &position, const int &healthBoost)
+HealthPowerUp::HealthPowerUp(const Vector2 &position, const float &scale, const char* assetPath)
     : position(Vector2{position.x, position.y}),
-      healthBoost(healthBoost),
-      texture(LoadTexture(ASSETS_PATH"healthpowerup.png")),
+      texture(LoadTexture(assetPath)),
       scale(0.25f)
 {
 }
@@ -46,10 +44,6 @@ Rectangle HealthPowerUp::getDestination()
   return destinationRect;
 }
 
-int HealthPowerUp::getHealthBoost()
-{
-   return healthBoost;
-}
 
 
 

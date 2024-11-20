@@ -8,7 +8,7 @@ Game::Game()
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
   leftStickDeadzoneY(0.1f),
-  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20))
+  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20, ASSETS_PATH"healthpowerup.png"))
 {
 }
 
@@ -36,7 +36,7 @@ void Game::update()
 
         /*
          *   example:
-         *   player.setHealth(100)
+         *   player.setHealth(100);
          * */
     }
 }
