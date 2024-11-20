@@ -12,6 +12,7 @@ class Powerup
     virtual void Draw() = 0;
     virtual ~Powerup() = default;
     virtual Rectangle getDestination() = 0;
+    virtual Vector2 getPosition() = 0;
 };
 
 #endif //POWERUP_H
