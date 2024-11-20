@@ -1,16 +1,20 @@
 #include "gameManager.h"
+#include "powerup.h"
+#include "healthPowerUp.h"
 
 Game::Game()
 : gamepad(0),
   leftStickAxisX(0.f),
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
-  leftStickDeadzoneY(0.1f)
+  leftStickDeadzoneY(0.1f),
+  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20))
 {
 }
 
 Game::~Game()
 {
+    delete powerup;
 }
 
 void Game::update()
@@ -24,6 +28,7 @@ void Game::update()
 
 void Game::draw()
 {
+    powerup->Draw();
     player.draw();
     for(auto& bullet : player.bulletsVector)
     {

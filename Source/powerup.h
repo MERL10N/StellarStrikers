@@ -8,8 +8,8 @@
 class Powerup
 {
   public:
-    virtual void Spawn() = 0;
-    virtual void DeSpawn() = 0;
+    virtual void Draw() = 0;
+    virtual ~Powerup() = default;
 };
 
 #endif //POWERUP_H

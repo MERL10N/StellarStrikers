@@ -13,13 +13,19 @@ class HealthPowerUp : public Powerup
     HealthPowerUp(); // Default Constructor
     HealthPowerUp(const Vector2& position, const int &healthBoost); // Overloaded constructo
     ~HealthPowerUp();
-    void Spawn() override;
-    void DeSpawn() override;
+    void Draw() override;
+    int getHealthBoost();
     Vector2 getPosition();
+
+    Rectangle getRect();
 
   private:
     Vector2 position;
+    Texture2D texture;
+    Rectangle sourceRect;
+    Rectangle destinationRect;
     int healthBoost;
+    float scale;
 };
 
 
