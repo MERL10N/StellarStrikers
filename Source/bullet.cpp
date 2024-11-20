@@ -1,24 +1,26 @@
 #include "bullet.h"
 #include <math.h>
 
-bullet::bullet(Vector2 position, float rotation){
-    this->position = position;
-    this->speed = 500;
-    this->rotation = rotation;
-    this->bulletLife = 2.0f;
-    this->creationTime = GetTime();
-    this->active = true;
-    bulletTexture = LoadTexture(ASSETS_PATH "playerbullet.png");
-}
+bullet::bullet(Vector2 position, float rotation): 
+  position(position),
+  speed(500),
+  rotation(rotation),
+  bulletLife(2.0f),
+  creationTime(GetTime()),
+  active(true),
+  bulletTexture(LoadTexture(ASSETS_PATH "playerbullet.png"))
+{}
 
 bool bullet::update(float frameTime){
     if(!active || (GetTime() > creationTime + bulletLife)){
         active = false;
-        return false;
+        UnloadTexture(bulletTexture);
+        return false;        
     }
 
     position.x += speed * frameTime * sin(rotation * DEG2RAD);
     position.y -= speed * frameTime * cos(rotation * DEG2RAD);
+
     return true;
 }
 
