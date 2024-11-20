@@ -19,3 +19,4 @@ CS100_FinalProject
 *.a
 CS100_FinalProject_tests
 .cmake/
+build.ninja

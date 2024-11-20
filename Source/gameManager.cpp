@@ -1,16 +1,21 @@
 #include "gameManager.h"
+#include "powerup.h"
+#include "healthPowerUp.h"
 
 Game::Game()
 : gamepad(0),
   leftStickAxisX(0.f),
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
-  leftStickDeadzoneY(0.1f)
+  leftStickDeadzoneY(0.1f),
+  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20))
 {
 }
 
 Game::~Game()
 {
+    if (powerup)
+        delete powerup;
 }
 
 void Game::update()
@@ -20,10 +25,29 @@ void Game::update()
         bullet.update(GetFrameTime());
     }
     DeleteInactiveBullets();
+
+    // Check if powerup is not nullptr and it collides with player
+    if (powerup && CheckCollisionRecs(player.getDestination(), powerup->getDestination()))
+    {
+        delete powerup;
+        powerup = nullptr;
+
+        // TODO: Recover health of the player back to full health
+
+        /*
+         *   example:
+         *   player.setHealth(100)
+         * */
+    }
 }
 
 void Game::draw()
 {
+    // Check if powerup is not nullptr
+    if (powerup)
+    {
+        powerup->Draw();
+    }
     player.draw();
     for(auto& bullet : player.bulletsVector)
     {

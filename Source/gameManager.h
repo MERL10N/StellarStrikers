@@ -1,6 +1,7 @@
 #pragma once
 #include "player.h"
 
+class Powerup;
 class Game{
     public:
         Game();
@@ -11,6 +12,8 @@ class Game{
     private: 
         void DeleteInactiveBullets();
         Player player;
+        Powerup* powerup;
+        
         int gamepad;
         float leftStickAxisX;
         float leftStickAxisY;
