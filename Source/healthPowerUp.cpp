@@ -14,7 +14,7 @@ HealthPowerUp::HealthPowerUp()
 HealthPowerUp::HealthPowerUp(const Vector2 &position, const float &scale, const char* assetPath)
     : position(Vector2{position.x, position.y}),
       texture(LoadTexture(assetPath)),
-      scale(0.25f)
+      scale(scale)
 {
 }
 

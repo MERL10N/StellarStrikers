@@ -1,6 +1,7 @@
 #include "gameManager.h"
 #include "powerup.h"
 #include "healthPowerUp.h"
+//#include "rapidFirePowerup.h"
 
 Game::Game()
 : gamepad(0),
@@ -8,7 +9,8 @@ Game::Game()
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
   leftStickDeadzoneY(0.1f),
-  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20, ASSETS_PATH"healthpowerup.png"))
+  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png"))
+  //,rapidFirePowerup(new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, ASSETS_PATH"rapidfirepowerup.png"))
 {
 }
 
@@ -16,6 +18,10 @@ Game::~Game()
 {
     if (powerup)
         delete powerup;
+
+   // if (rapidFirePowerup)
+   //     delete rapidFirePowerup;
+
 }
 
 void Game::update()
@@ -39,6 +45,16 @@ void Game::update()
          *   player.setHealth(100);
          * */
     }
+
+    // Check if powerup is not nullptr and it collides with player
+    /*
+    if (rapidFirePowerup && CheckCollisionRecs(player.getDestination(), rapidFirePowerup->getDestination()))
+    {
+        delete rapidFirePowerup;
+        rapidFirePowerup = nullptr;
+
+        // TODO: Double the fire rate of the bullet
+    }*/
 }
 
 void Game::draw()
@@ -48,6 +64,12 @@ void Game::draw()
     {
         powerup->Draw();
     }
+    /*
+   if (rapidFirePowerup)
+    {
+        rapidFirePowerup->Draw();
+    }
+    */
     player.draw();
     for(auto& bullet : player.bulletsVector)
     {
