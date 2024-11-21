@@ -30,6 +30,11 @@ int main()
                 //Update with different methods of entering gameplay screen
                 if (IsKeyPressed(KEY_ENTER))
                     currentScreen = GAMEPLAY;
+                if (IsGamepadAvailable(0))
+                {
+                    if (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
+                        currentScreen = GAMEPLAY;
+                }
             } break;
             case GAMEPLAY:
             {
