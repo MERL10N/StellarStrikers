@@ -5,7 +5,6 @@
 #ifndef HEALTHPOWERUP_H
 #define HEALTHPOWERUP_H
 #include "powerup.h"
-#include <raylib.h>
 
 class HealthPowerUp : public Powerup
 {
@@ -22,10 +21,7 @@ class HealthPowerUp : public Powerup
     Texture2D texture;
     Rectangle sourceRect;
     Rectangle destinationRect;
-    int healthBoost;
     float scale;
 };
-
-
 
 #endif //HEALTHPOWERUP_H
