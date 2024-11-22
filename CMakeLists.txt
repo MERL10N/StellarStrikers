@@ -1,43 +1,59 @@
-cmake_minimum_required(VERSION 3.29)
-project(CS100_FinalProject)
+# Minimum CMake version
+cmake_minimum_required(VERSION 3.10)
 
+# Project name
+project(FinalProject)
+
+# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Adding Raylib
-include(FetchContent)
-set(FETCHCONTENT_QUIET FALSE)
-set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
-set(BUILD_GAMES    OFF CACHE BOOL "" FORCE) # don't build the supplied example games
-
-# Add raylib to thirdparty folder
-add_subdirectory(ThirdParty/raylib)
-
-# Add googletest to thirdparty folder
-add_subdirectory(ThirdParty/googletest)
-
-include_directories(
-  ${CMAKE_SOURCE_DIR}/ThirdParty/googletest/googletest/include/
-  ${CMAKE_SOURCE_DIR}/ThirdParty/googletest/googlemock/include/
+# Add source files
+set(SOURCES
+    Source/gameManager.cpp
+    Source/health.cpp
+    Source/main.cpp
+    Source/player.cpp
 )
 
+# Add header files (optional, for IDE support)
+set(HEADERS
+    Source/gameManager.h
+    Source/health.h
+    Source/player.h
+)
 
-# Adding our source files
-file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Source/*.cpp") # Define PROJECT_SOURCES as a list of all source files
-set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/Source/") # Define PROJECT_INCLUDE to be the path to the include directory of the project
+# Include the third-party libraries
+include_directories(Source ThirdParty/gtest/include ThirdParty/raylib/include)
 
-# Declaring our executable
-add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+# Option 1: Use Raylib system-wide (if installed)
+find_package(raylib QUIET) # Use system-installed Raylib if available
 
+if (NOT raylib_FOUND) # If Raylib is not found, use the third-party folder
+    add_subdirectory(ThirdParty/raylib)
+endif()
 
-# Declaring a separate test executable
-file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Tests/*.cpp")
-add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME}_tests PRIVATE gtest gtest_main)
-target_include_directories(${PROJECT_NAME}_tests PRIVATE ${PROJECT_INCLUDE})
+# Option 2: Add gtest from the third-party folder
+add_subdirectory(ThirdParty/gtest)
 
-# Setting ASSETS_PATH
-target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Assets/") # Set the asset path macro to the absolute path on the dev machine
-#target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="./assets") # Set the asset path macro in release mode to a relative path that assumes the assets folder is in the same directory as the game executable
+# Add executable for the main program
+add_executable(FinalProject ${SOURCES})
+
+# Link Raylib to the main executable
+if (raylib_FOUND)
+    target_link_libraries(FinalProject raylib)
+else()
+    target_link_libraries(FinalProject raylib_static)
+endif()
+
+# Add test executable
+add_executable(Test Tests/Test.cpp ${SOURCES})
+
+# Link gtest and Raylib to the test executable
+target_link_libraries(Test gtest gtest_main raylib_static)
+
+# Include directories for Raylib
+if (raylib_FOUND)
+    target_include_directories(FinalProject PRIVATE ${RAYLIB_INCLUDE_DIRS})
+    target_include_directories(Test PRIVATE ${RAYLIB_INCLUDE_DIRS})
+endif()

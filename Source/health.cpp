@@ -1,4 +1,4 @@
-#include "health.h"
+#include "Health.h"
 #include <algorithm>
 
 Health::Health(){
@@ -16,9 +16,9 @@ int Health::getHealth() const{
 }
 
 void Health::receiveDamage(){
-    currentHealth = max(0, currentHealth - 10);
+    currentHealth = std::max(0, currentHealth - 10);
 }
          
 void Health::receiveHealth(int received_health){
-    currentHealth = min(maxHealth, currentHealth + received_health);
+    currentHealth = std::min(maxHealth, currentHealth + received_health);
 }
