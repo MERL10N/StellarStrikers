@@ -15,6 +15,10 @@ class HealthPowerUp : public Powerup
     void Draw() override;
     Vector2 getPosition() override;
     Rectangle getDestination() override;
+    void activatePowerup(Player &player) override {};
+    void deactivatePowerup(Player &player) override {};
+    void updatePowerup(Player &player, float &deltaTime) override{};
+    bool getActive() override {};
 
   private:
     Vector2 position;

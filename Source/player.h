@@ -15,6 +15,7 @@ class Player
         void moveBackward();
         void moveWithController(const float &axisX, const float &axisY);
         void fireBullet();
+        void setFireRate(const float &fireRateMultiplier);
         Rectangle getDestination();
         std::vector<bullet> bulletsVector;
     private:
@@ -28,4 +29,5 @@ class Player
         float angleDifference;
         Rectangle destination;
         double lastFireTime;
+        float fireRateMultiplier;
 };

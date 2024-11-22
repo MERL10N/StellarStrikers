@@ -1,7 +1,9 @@
 #include "gameManager.h"
 #include "powerup.h"
 #include "healthPowerUp.h"
-//#include "rapidFirePowerup.h"
+
+#include "rapidFirePowerup.h"
+#include <iostream>
 
 Game::Game()
 : gamepad(0),
@@ -9,8 +11,8 @@ Game::Game()
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
   leftStickDeadzoneY(0.1f),
-  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png"))
-  //,rapidFirePowerup(new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, ASSETS_PATH"rapidfirepowerup.png"))
+  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png")),
+  rapidFirePowerup(new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, ASSETS_PATH"rapidfirepowerup.png"))
 {
 }
 
@@ -19,16 +21,17 @@ Game::~Game()
     if (powerup)
         delete powerup;
 
-   // if (rapidFirePowerup)
-   //     delete rapidFirePowerup;
+    if (rapidFirePowerup)
+        delete rapidFirePowerup;
 
 }
 
 void Game::update()
 {
+    float deltaTime = GetFrameTime();
     for(auto& bullet : player.bulletsVector)
     {
-        bullet.update(GetFrameTime());
+        bullet.update(deltaTime);
     }
     DeleteInactiveBullets();
 
@@ -46,15 +49,24 @@ void Game::update()
          * */
     }
 
-    // Check if powerup is not nullptr and it collides with player
-    /*
     if (rapidFirePowerup && CheckCollisionRecs(player.getDestination(), rapidFirePowerup->getDestination()))
     {
-        delete rapidFirePowerup;
-        rapidFirePowerup = nullptr;
+        if (rapidFirePowerup->getActive() == false)
+        {
+            rapidFirePowerup->activatePowerup(player);
+        }
+    }
 
-        // TODO: Double the fire rate of the bullet
-    }*/
+    if (rapidFirePowerup && rapidFirePowerup->getActive())
+    {
+        rapidFirePowerup->updatePowerup(player, deltaTime);
+
+        if (rapidFirePowerup->getActive() == false)
+        {
+            delete rapidFirePowerup;
+            rapidFirePowerup = nullptr;
+        }
+    }
 }
 
 void Game::draw()
@@ -64,12 +76,12 @@ void Game::draw()
     {
         powerup->Draw();
     }
-    /*
-   if (rapidFirePowerup)
+
+   if (rapidFirePowerup && !rapidFirePowerup->getActive())
     {
         rapidFirePowerup->Draw();
     }
-    */
+
     player.draw();
     for(auto& bullet : player.bulletsVector)
     {

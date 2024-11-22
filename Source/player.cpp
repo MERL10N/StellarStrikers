@@ -11,7 +11,8 @@ Player::Player()
   playerSprite(LoadTexture(ASSETS_PATH"player.png")),
   rotationSpeedMultiplier(10.f),
   angleDifference(0.0f),
-  lastFireTime(0.0)
+  lastFireTime(0.0),
+  fireRateMultiplier(1.0f)
 {
 }
 
@@ -100,10 +101,13 @@ void Player::moveWithController(const float &axisX, const float &axisY)
     position.x += sin(rotation * DEG2RAD) * moveSpeed;
     position.y -= cos(rotation * DEG2RAD) * moveSpeed;
 }
-
+void Player::setFireRate(const float &fireRateMultiplier)
+{
+    this->fireRateMultiplier = fireRateMultiplier;
+}
 void Player::fireBullet()
 {
-    if(GetTime() - lastFireTime >= 0.35){
+    if(GetTime() - lastFireTime >= (0.35 / fireRateMultiplier)){
         Vector2 bulletPosition = {position.x, position.y};
         bulletsVector.push_back(bullet(bulletPosition, rotation));
         lastFireTime = GetTime();

@@ -5,8 +5,8 @@
 #include "healthPowerUp.h"
 
 HealthPowerUp::HealthPowerUp()
-    : position(Vector2{((float)GetScreenWidth() - (float)texture.width) * 0.25f, ((float)GetScreenHeight() - (float)texture.height)* 0.25f}),
-      texture(LoadTexture(ASSETS_PATH"healthpowerup.png")),
+    : texture(LoadTexture(ASSETS_PATH"healthpowerup.png")),
+      position(Vector2{((float)GetScreenWidth() - (float)texture.width) * 0.25f, ((float)GetScreenHeight() - (float)texture.height)* 0.25f}),
       scale(0.25f)
 {
 }
