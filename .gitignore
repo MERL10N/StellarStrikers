@@ -20,3 +20,6 @@ CS100_FinalProject
 CS100_FinalProject_tests
 .cmake/
 build.ninja
+.ninja_deps
+Testing/Temporary/LastTest.log
+.ninja_log

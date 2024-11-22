@@ -1,17 +1,13 @@
 #include "rapidFirePowerup.h"
-
-
-RapidFirePowerup::RapidFirePowerup()
-   : position(Vector2{((float)GetScreenWidth() - (float)texture.width) * 0.25f, ((float)GetScreenHeight() - (float)texture.height)* 0.25f}),
-      texture(LoadTexture(ASSETS_PATH"rapidfirepowerup.png")),
-      scale(0.25f)
-{
-}
+#include "player.h"
+#include <iostream>
 
 RapidFirePowerup::RapidFirePowerup(const Vector2& position, const float &scale, const char* assetPath)
     : position(Vector2{position.x, position.y}),
       texture(LoadTexture(assetPath)),
-      scale(scale)
+      scale(scale),
+      powerupTimer(0.0f),
+      isActive(false)
 {
 }
 
@@ -23,12 +19,45 @@ RapidFirePowerup::~RapidFirePowerup()
   }
 }
 
+void RapidFirePowerup::activatePowerup(Player &player)
+{
+  isActive = true;
+   player.setFireRate(2.0f);
+   powerupTimer = 10.f;
+}
+
+void RapidFirePowerup::deactivatePowerup(Player &player)
+{
+  isActive = false;
+  player.setFireRate(1.0f);
+  powerupTimer = 0;
+}
+
+void RapidFirePowerup::updatePowerup(Player &player, float &deltaTime)
+{
+  if (!isActive)
+      return;
+      
+    powerupTimer -= deltaTime;
+    std::cout << "Timer: " << powerupTimer << std::endl;
+    if (powerupTimer <= 0.0f)
+    {
+        powerupTimer = 0.0f;
+        deactivatePowerup(player);
+    }
+}
+
 void RapidFirePowerup::Draw()
 {
     sourceRect = {0,0, (float)texture.width, (float)texture.height};
     destinationRect = {position.x - (texture.width * scale), position.y - (texture.height * scale), texture.width * scale, texture.height * scale};
     // Draw the rapidfire powerup sprite
     DrawTexturePro(texture, sourceRect, destinationRect, Vector2{0.f,0.f}, 0.f, WHITE);
+}
+
+bool RapidFirePowerup::getActive()
+{
+   return isActive;
 }
 
 Rectangle RapidFirePowerup::getDestination()

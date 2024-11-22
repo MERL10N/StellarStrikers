@@ -13,7 +13,7 @@ class Game{
         void DeleteInactiveBullets();
         Player player;
         Powerup* powerup;
-        //Powerup* rapidFirePowerup;
+        Powerup* rapidFirePowerup;
         
         int gamepad;
         float leftStickAxisX;
