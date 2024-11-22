@@ -47,7 +47,8 @@
 
 ## Class Diagram
 
-<img width="512" alt="image" src="https://github.com/user-attachments/assets/248fbfa2-a49a-4450-abc7-53cb0fef6489">
+<img width="430" alt="image" src="https://github.com/user-attachments/assets/71727089-ea46-4556-89d3-dc9c85d651dd">
+
 
 - Main Menu is where the program will start and it will generate the gameManager as well as provide a way to exit the game window or start the game
 - GameManager will contain all components of the actual gameplay classes such as all subsequent menus + navigations and gameplay elements such as players and enemies
