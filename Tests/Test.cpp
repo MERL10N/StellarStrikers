@@ -1,11 +1,12 @@
 #include <gtest/gtest.h>
-#include "health.h"
+#include "../Source/health.h"
 
 // Sample test
 TEST(SampleTest, BasicAssertions)
 {
     EXPECT_EQ(1, 1);
 }
+
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
@@ -14,6 +15,7 @@ int main(int argc, char **argv) {
 
 TEST(HealthTest, NoinputConstructor) {
     Health h;
+    h.receiveDamage();
     EXPECT_EQ(h.getHealth(), 100);
 }
 
@@ -24,9 +26,9 @@ TEST(HealthTest,InputConstructor) {
 
 TEST(HealthTest, ReceiveDamage) {
     Health h(50);
-    h.receiveDamage(20);
+    h.receiveDamage();
     EXPECT_EQ(h.getHealth(), 30);
-    h.receiveDamage(50);
+    h.receiveDamage();
     EXPECT_EQ(h.getHealth(), 0);
 }
 
@@ -36,11 +38,11 @@ TEST(HealthTest, ReceiveHealth) {
     EXPECT_EQ(h.getHealth(), 80); //should fail as max health is 50
 
     Health he;
-    h.recieveDamage();
-    h.recieveDamage();
-    h.recieveDamage();
-    h.recieveDamage();
-    h.recieveDamage();
+    h.receiveDamage();
+    h.receiveDamage();
+    h.receiveDamage();
+    h.receiveDamage();
+    h.receiveDamage();
     h.receiveHealth(50);
     EXPECT_EQ(h.getHealth(), 100);
 }

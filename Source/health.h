@@ -1,6 +1,7 @@
 #pragma once
 
-class Health{
+class Health
+{
     public: 
         Health();
         Health(int);
