@@ -18,6 +18,7 @@ add_subdirectory(ThirdParty/googletest)
 include_directories(
   ${CMAKE_SOURCE_DIR}/ThirdParty/googletest/googletest/include/
   ${CMAKE_SOURCE_DIR}/ThirdParty/googletest/googlemock/include/
+  ${CMAKE_SOURCE_DIR}/ThirdParty/raylib/raylib/include/
 )
 
 
@@ -34,7 +35,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 # Declaring a separate test executable
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Tests/*.cpp")
-add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES})
+add_executable(${PROJECT_NAME}_tests ${TEST_SOURCES} Source/health.cpp)
 target_link_libraries(${PROJECT_NAME}_tests PRIVATE gtest gtest_main)
 target_include_directories(${PROJECT_NAME}_tests PRIVATE ${PROJECT_INCLUDE})
 

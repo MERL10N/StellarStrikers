@@ -37,7 +37,7 @@
 ## User Interface Specification
 
 ### Navigation Diagram
-> ![Navdiagram](https://github.com/user-attachments/assets/025e93f5-ba2f-415f-a4a7-94e3bb872dd0)
+> ![diagram](https://github.com/user-attachments/assets/e71c80c2-1240-4a3b-9eac-db6ebdd90ba5)
 
 
 ### Screen Layouts
