@@ -8,7 +8,9 @@ int main()
     int width = 1280;
     int height = 720;
     InitWindow(width, height, "CS100 Final Project");
+    InitAudioDevice();
     SetTargetFPS(60);
+    
 
     Texture2D background = LoadTexture(ASSETS_PATH "background.png");
     Game game;
@@ -70,7 +72,7 @@ int main()
 
     // Free textures from GPU memory
     UnloadTexture(background);
-
+    CloseAudioDevice();
     CloseWindow();
 
     return 0;

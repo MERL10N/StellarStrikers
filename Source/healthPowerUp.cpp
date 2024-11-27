@@ -7,14 +7,16 @@
 HealthPowerUp::HealthPowerUp()
     : texture(LoadTexture(ASSETS_PATH"healthpowerup.png")),
       position(Vector2{((float)GetScreenWidth() - (float)texture.width) * 0.25f, ((float)GetScreenHeight() - (float)texture.height)* 0.25f}),
-      scale(0.25f)
+      scale(0.25f),
+      powerUpSFX(LoadSound(ASSETS_PATH "powerUpSFX.mp3"))
 {
 }
 
 HealthPowerUp::HealthPowerUp(const Vector2 &position, const float &scale, const char* assetPath)
     : position(Vector2{position.x, position.y}),
       texture(LoadTexture(assetPath)),
-      scale(scale)
+      scale(scale),
+      powerUpSFX(LoadSound(ASSETS_PATH "powerUpSFX.mp3"))
 {
 }
 
@@ -23,6 +25,7 @@ HealthPowerUp::~HealthPowerUp()
   if (texture.id > 0)
   {
     UnloadTexture(texture);
+    UnloadSound(powerUpSFX);
   }
 }
 

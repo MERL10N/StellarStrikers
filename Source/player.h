@@ -29,4 +29,5 @@ class Player
         Rectangle destination;
         double lastFireTime;
         float fireRateMultiplier;
+        Sound bulletSFX;
 };

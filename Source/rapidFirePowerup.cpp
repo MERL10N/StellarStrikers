@@ -7,7 +7,8 @@ RapidFirePowerup::RapidFirePowerup(const Vector2& position, const float &scale, 
       texture(LoadTexture(assetPath)),
       scale(scale),
       powerupTimer(0.0f),
-      isActive(false)
+      isActive(false),
+      powerUpSFX(LoadSound(ASSETS_PATH "powerUpSFX.mp3"))
 {
 }
 
@@ -16,11 +17,13 @@ RapidFirePowerup::~RapidFirePowerup()
   if (texture.id > 0)
   {
     UnloadTexture(texture);
+    UnloadSound(powerUpSFX);
   }
 }
 
 void RapidFirePowerup::activatePowerup(Player &player)
 {
+  PlaySound(powerUpSFX);
   isActive = true;
    player.setFireRate(2.0f);
    powerupTimer = 10.f;

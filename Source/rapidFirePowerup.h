@@ -27,6 +27,7 @@ class RapidFirePowerup : public Powerup
     float scale;
     bool isActive;
     float powerupTimer;
+    Sound powerUpSFX;
 };
 
 #endif //RAPIDFIREPOWERUP_H

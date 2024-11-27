@@ -26,6 +26,7 @@ class HealthPowerUp : public Powerup
     Rectangle sourceRect;
     Rectangle destinationRect;
     float scale;
+    Sound powerUpSFX;
 };
 
 #endif //HEALTHPOWERUP_H
