@@ -10,6 +10,7 @@ Player::Player()
   targetRotation(0.0f),
   playerSprite(LoadTexture(ASSETS_PATH"player.png")),
   rotationSpeedMultiplier(10.f),
+  bulletSFX(LoadSound(ASSETS_PATH "bulletSFX.mp3")),
   angleDifference(0.0f),
   lastFireTime(0.0),
   fireRateMultiplier(1.0f)
@@ -19,6 +20,7 @@ Player::Player()
 Player::~Player()
 {
     UnloadTexture(playerSprite);
+    UnloadSound(bulletSFX);
 }
 
 void Player::draw()
@@ -111,6 +113,7 @@ void Player::fireBullet()
         Vector2 bulletPosition = {position.x, position.y};
         bulletsVector.push_back(bullet(bulletPosition, rotation));
         lastFireTime = GetTime();
+        PlaySound(bulletSFX);
     }
 }
 
