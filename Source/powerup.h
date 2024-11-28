@@ -6,7 +6,7 @@
 #define POWERUP_H
 
 #include <raylib.h>
-#include "Player.h"
+#include "player.h"
 class Powerup
 {
   public:

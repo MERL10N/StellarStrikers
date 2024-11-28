@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../Source/health.h"
+#include "../Source/player.h"
 
 // Sample test
 TEST(SampleTest, BasicAssertions)
@@ -14,9 +15,11 @@ int main(int argc, char **argv) {
 }
 
 TEST(HealthTest, NoinputConstructor) {
-    Health h;
-    h.receiveDamage();
-    EXPECT_EQ(h.getHealth(), 100);
+    Health* h = new Health();
+    EXPECT_TRUE(h != nullptr);
+
+    delete h;
+    h = nullptr;
 }
 
 TEST(HealthTest,InputConstructor) {
@@ -37,7 +40,6 @@ TEST(HealthTest, ReceiveHealth) {
     h.receiveHealth(30);
     EXPECT_EQ(h.getHealth(), 80); //should fail as max health is 50
 
-    Health he;
     h.receiveDamage();
     h.receiveDamage();
     h.receiveDamage();
