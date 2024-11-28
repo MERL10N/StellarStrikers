@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "../Source/health.h"
 #include "../Source/player.h"
+#include "../Source/healthPowerUp.h"
+#include "../Source/rapidFirePowerup.h"
 
 // Sample test
 TEST(SampleTest, BasicAssertions)
@@ -59,3 +61,15 @@ TEST(HealthTest, BoundaryValues) {
     h.receiveHealth(200);
     EXPECT_EQ(h.getHealth(), 100);
 }
+
+TEST(PlayerTest, CanCallConstructor)
+{
+    Player *p = new Player();
+
+    EXPECT_TRUE(p != nullptr);
+
+    delete p;
+    p = nullptr;
+}
+
+TEST(PlayerTest, )
