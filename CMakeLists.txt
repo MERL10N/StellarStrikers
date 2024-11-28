@@ -32,6 +32,8 @@ target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
+# Remove main.cpp from test sources
+list(FILTER PROJECT_SOURCES EXCLUDE REGEX ".*main\\.cpp$")
 
 # Declaring a separate test executable
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Tests/*.cpp")
