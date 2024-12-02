@@ -20,10 +20,6 @@ SpriteAnimation::SpriteAnimation(const char* filePath, int framesPerLine, int nu
     frameWidth = static_cast<float>(texture.width) / framesPerLine;
     frameHeight = static_cast<float>(texture.height) / numLines;
     frameRec = {0.0f, 0.0f, frameWidth, frameHeight};
-
-    // Debug log for successful initialization
-    TraceLog(LOG_INFO, "SpriteAnimation initialized: filePath = %s, frameWidth = %f, frameHeight = %f",
-             filePath, frameWidth, frameHeight);
 }
 
 SpriteAnimation::~SpriteAnimation()
