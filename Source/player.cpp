@@ -1,5 +1,4 @@
 #include "player.h"
-#include <cmath>
 #include <iostream>
 
 Player::Player()
@@ -111,11 +110,22 @@ void Player::fireBullet()
 {
     if(GetTime() - lastFireTime >= (0.35 / fireRateMultiplier)){
         Vector2 bulletPosition = {position.x, position.y};
-        bulletsVector.push_back(bullet(bulletPosition, rotation));
+        bulletsVector.push_back(new Bullet(bulletPosition, rotation));
         lastFireTime = GetTime();
         PlaySound(bulletSFX);
     }
 }
+
+void Player::fireRocket()
+{
+    if(GetTime() - lastFireTime >= (2 / fireRateMultiplier))
+    {
+        Vector2 bulletPosition = {position.x, position.y};
+        bulletsVector.push_back(new Rocket(bulletPosition, rotation));
+        lastFireTime = GetTime();
+    }
+}
+
 
 Rectangle Player::getDestination()
 {

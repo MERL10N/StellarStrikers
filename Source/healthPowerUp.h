@@ -18,7 +18,7 @@ class HealthPowerUp : public Powerup
     void activatePowerup(Player &player) override {};
     void deactivatePowerup(Player &player) override {};
     void updatePowerup(Player &player, float &deltaTime) override{};
-    bool getActive() override {};
+    bool getActive() override { return true; };
 
   private:
     Vector2 position;

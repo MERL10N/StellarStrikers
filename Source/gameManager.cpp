@@ -31,7 +31,7 @@ void Game::update()
     float deltaTime = GetFrameTime();
     for(auto& bullet : player.bulletsVector)
     {
-        bullet.update(deltaTime);
+        bullet->Update(deltaTime);
     }
     DeleteInactiveBullets();
 
@@ -85,7 +85,7 @@ void Game::draw()
     player.draw();
     for(auto& bullet : player.bulletsVector)
     {
-        bullet.draw();
+        bullet->Render();
     }
 }
 
@@ -110,6 +110,11 @@ void Game::handleInput()
     if(IsKeyDown(KEY_SPACE))
     {
         player.fireBullet();
+    }
+
+    if (IsKeyDown(KEY_LEFT_SHIFT))
+    {
+        player.fireRocket();
     }
 
 
@@ -139,12 +144,20 @@ void Game::handleInput()
 
 void Game::DeleteInactiveBullets()
 {
-    for(int i = 0; i < player.bulletsVector.size(); ++i)
-    {
-        if(!player.bulletsVector[i].active)
-        {
-            player.bulletsVector.erase(player.bulletsVector.begin() + i);
-            --i;
+    for (int i = 0; i < player.bulletsVector.size(); ++i) {
+        Projectile* projectile = player.bulletsVector[i];
+
+        if (!projectile->isActive()) {
+            Rocket* rocket = dynamic_cast<Rocket*>(projectile);
+            if (rocket && rocket->hasExploded && !rocket->explosionAnimation.IsActive()) {
+                delete rocket;
+                player.bulletsVector.erase(player.bulletsVector.begin() + i);
+                --i;
+            } else if (!rocket) {
+                delete projectile;
+                player.bulletsVector.erase(player.bulletsVector.begin() + i);
+                --i;
+            }
         }
     }
 }
