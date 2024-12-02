@@ -1,5 +1,7 @@
 #pragma once
+#include "projectile.h"
 #include "bullet.h"
+#include "rocket.h"
 #include <vector>
 
 class Player
@@ -14,9 +16,10 @@ class Player
         void moveBackward();
         void moveWithController(const float &axisX, const float &axisY);
         void fireBullet();
+        void fireRocket();
         void setFireRate(const float &fireRateMultiplier);
         Rectangle getDestination();
-        std::vector<bullet> bulletsVector;
+        std::vector<Projectile*> bulletsVector;
     private:
         Texture2D playerSprite;
         Vector2 position;

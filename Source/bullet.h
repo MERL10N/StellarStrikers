@@ -1,18 +1,9 @@
 #pragma once
-#include <raylib.h>
+#include "projectile.h"
 
-class bullet{
+class Bullet : public Projectile
+{
 public:
-    bullet(Vector2 position, float rotation);
-    bool update(float frameTime);
-    void draw();
-    bool active;
-
-private:
-    Vector2 position;
-    int speed;
-    float rotation;
-    float creationTime;
-    float bulletLife;
-    Texture2D bulletTexture;
+    Bullet(const Vector2 &position, float rotation);
+    bool Update(float deltaTime) override;
 };

@@ -64,12 +64,18 @@ TEST(HealthTest, BoundaryValues) {
 
 TEST(PlayerTest, CanCallConstructor)
 {
-    Player *p = new Player();
+    Player* p = new Player();
 
-    EXPECT_TRUE(p != nullptr);
+    ASSERT_TRUE(p);
 
     delete p;
     p = nullptr;
 }
 
-TEST(PlayerTest, )
+TEST(PlayerTest, CanCallDestructor)
+{
+    Player* p = new Player();
+
+    delete p;
+    ASSERT_TRUE(p);
+}
