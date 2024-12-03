@@ -78,6 +78,13 @@ void Enemy::Update(float &deltaTime, const Vector2 &playerPosition)
             UpdateDie(deltaTime);
             break;
     }
+
+    // Update bullets
+    for (auto& bullet : bulletsVector) {
+        bullet->Update(deltaTime);
+    }
+
+    CleanUpBullets();
 }
 
 void Enemy::UpdateChase(const Vector2 &playerPosition, float deltaTime)
@@ -116,15 +123,11 @@ void Enemy::UpdateShoot(const Vector2 &playerPosition, float &deltaTime)
           bulletsVector.push_back(std::make_unique<Bullet>(position, rotation + 90));
       }
 
-    // Update bullets
-    for (auto& bullet : bulletsVector) {
-        bullet->Update(deltaTime);
-    }
+
     if (Vector2Distance(position, playerPosition) > shootingRange)
     {
         currentState = State::CHASE;
     }
-  CleanUpBullets();
 }
 
 void Enemy::UpdateDie(float &deltaTime) {
