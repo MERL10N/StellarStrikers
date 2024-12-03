@@ -1,6 +1,6 @@
 #include "spriteAnimation.h"
 
-SpriteAnimation::SpriteAnimation(const char* filePath, int framesPerLine, int numLines, int fps)
+SpriteAnimation::SpriteAnimation(const char* filePath, const int framesPerLine, const int numLines, const int fps)
     : framesPerLine(framesPerLine), numLines(numLines), fps(fps),
       currentFrame(0), currentLine(0), framesCounter(0), active(false)
 {
@@ -8,7 +8,8 @@ SpriteAnimation::SpriteAnimation(const char* filePath, int framesPerLine, int nu
     texture = LoadTexture(filePath);
 
     // Validate the texture
-    if (texture.width == 0 || texture.height == 0) {
+    if (texture.width == 0 || texture.height == 0)
+    {
         TraceLog(LOG_ERROR, "Failed to load texture: %s", filePath);
         frameWidth = 0;
         frameHeight = 0;

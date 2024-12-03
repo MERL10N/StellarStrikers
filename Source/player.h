@@ -19,6 +19,7 @@ class Player
         void fireRocket();
         void setFireRate(const float &fireRateMultiplier);
         Rectangle getDestination();
+        inline Vector2 getPosition() { return position; }
         std::vector<Projectile*> bulletsVector;
     private:
         Texture2D playerSprite;
