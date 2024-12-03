@@ -3,6 +3,7 @@
 #include "bullet.h"
 #include "rocket.h"
 #include <vector>
+#include <cmath>
 
 class Player
 {
