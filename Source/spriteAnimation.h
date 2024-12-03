@@ -3,7 +3,8 @@
 
 #include "raylib.h"
 
-class SpriteAnimation {
+class SpriteAnimation
+{
 public:
     // Constructor
     SpriteAnimation(const char* filePath, int framesPerLine, int numLines, int fps);
