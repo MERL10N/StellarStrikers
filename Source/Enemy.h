@@ -3,6 +3,10 @@
 #define ENEMY_H
 #include <raylib.h>
 
+#include "projectile.h"
+#include "bullet.h"
+#include <vector>
+
 class Enemy
 {
 public:
@@ -14,7 +18,7 @@ public:
         DIE
     };
     Enemy();
-    Enemy(const Vector2& position, float &screenWidth, float &screenHeight);
+    Enemy(float screenWidth, float screenHeight);
     ~Enemy();
 
     void Update(float &deltaTime, const Vector2& position);
@@ -29,6 +33,8 @@ public:
       float speed;
       State currentState;
 
+      std::vector<Projectile*> bulletsVector;
+
       Texture2D texture;
       Vector2 origin;
 
@@ -38,6 +44,8 @@ public:
       float shootTimer;
       float shootCooldown;
       float dieTimer;
+
+      float rotation;
 
       void Spawn(float &screenWidth, float &screenHeight);
       void UpdateChase(const Vector2& playerPosition, float deltaTime);

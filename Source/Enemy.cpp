@@ -1,23 +1,27 @@
 #include "Enemy.h"
 
+#include <iostream>
 #include <raymath.h>
 
 Enemy::Enemy()
 {
 }
 
-Enemy::Enemy(const Vector2& position, float &screenWidth,  float &screenHeight)
-: position(position),
+Enemy::Enemy(float screenWidth,  float screenHeight)
+:
+  texture(LoadTexture(ASSETS_PATH"enemy.png")),
+  position(position),
   screenWidth(screenWidth),
   screenHeight(screenHeight),
   currentState(State::CHASE),
   alive(true),
   shootTimer(0.0f),
   shootCooldown(2.0f),
-  dieTimer(1.0f)
+  dieTimer(1.0f),
+  speed(100.0f),
+  rotation(0.0f)
 {
-    texture = LoadTexture(ASSETS_PATH"enemy.png");
-    origin = {texture.width * 0.5f, texture.height * 0.5f};
+    origin = {texture.width * 0.0025f, texture.height * 0.0025f};
 
     Spawn(screenWidth, screenHeight);
 }
@@ -47,6 +51,8 @@ void Enemy::Spawn(float &screenWidth, float &screenHeight)
             position = {screenWidth + (float)texture.width, (float)GetRandomValue(0, screenHeight)};
             break;
     }
+
+    TraceLog(LOG_INFO, "Enemy spawned at: (%f, %f)", position.x, position.y);
 }
 
 void Enemy::Update(float &deltaTime, const Vector2 &position)
@@ -54,15 +60,19 @@ void Enemy::Update(float &deltaTime, const Vector2 &position)
     if (!alive)
         return;
 
+    TraceLog(LOG_INFO, "Enemy state: %d", (int)currentState);
     switch (currentState)
         {
         case State::CHASE:
+            TraceLog(LOG_INFO, "Enemy is in CHASE state.");
             UpdateChase(position, deltaTime);
             break;
         case State::SHOOT:
+            TraceLog(LOG_INFO, "Enemy is in SHOOT state.");
             UpdateShoot(deltaTime);
             break;
         case State::DIE:
+            TraceLog(LOG_INFO, "Enemy is in DIE state.");
             UpdateDie(deltaTime);
             break;
     }
@@ -70,6 +80,7 @@ void Enemy::Update(float &deltaTime, const Vector2 &position)
 
 void Enemy::UpdateChase(const Vector2 &playerPosition, float deltaTime)
 {
+
     // Calculate direction vector to player
     Vector2 direction = {playerPosition.x - position.x, playerPosition.y - position.y};
 
@@ -85,19 +96,14 @@ void Enemy::UpdateChase(const Vector2 &playerPosition, float deltaTime)
     // Update the position using kinematics equation
     position += velocity * deltaTime;
 
+    // Calculate rotation to face the player
+    rotation = atan2(direction.y, direction.x) * RAD2DEG;
+
 }
 
 void Enemy::UpdateShoot(float &deltaTime)
 {
-    velocity = {0.0f, 0.0f};
 
-    shootTimer += deltaTime;
-
-    if (shootTimer >= shootCooldown) {
-        shootTimer = 0.0f;
-
-
-    }
 }
 
 void Enemy::UpdateDie(float &deltaTime) {
@@ -120,7 +126,12 @@ void Enemy::Render() const
     Rectangle sourceRect = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
 
     // Draw the player sprite with rotation around its center
-    DrawTexturePro(texture, sourceRect, destinationRect, center, 0.0f, WHITE);
+    BeginBlendMode(BLEND_ALPHA);
+    DrawTexturePro(texture, sourceRect, destinationRect, center, rotation - 90, WHITE);
+    EndBlendMode();
+
+    // Draw a red circle at the enemy's position for debugging
+    DrawCircle(position.x, position.y, 5, RED);
 }
 
 

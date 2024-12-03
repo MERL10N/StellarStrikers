@@ -14,6 +14,7 @@ Game::Game()
   powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png")),
   rapidFirePowerup(new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, ASSETS_PATH"rapidfirepowerup.png"))
 {
+    enemies.push_back(new Enemy(GetScreenWidth(), GetScreenHeight()));
 }
 
 Game::~Game()
@@ -23,6 +24,12 @@ Game::~Game()
 
     if (rapidFirePowerup)
         delete rapidFirePowerup;
+
+    for (auto enemy : enemies)
+    {
+        delete enemy;
+    }
+    enemies.clear();
 
 }
 
@@ -67,6 +74,10 @@ void Game::update()
             rapidFirePowerup = nullptr;
         }
     }
+
+    for (auto& enemy : enemies) {
+        enemy->Update(deltaTime, player.getPosition());
+    }
 }
 
 void Game::draw()
@@ -86,6 +97,11 @@ void Game::draw()
     for(auto& bullet : player.bulletsVector)
     {
         bullet->Render();
+    }
+
+    for (auto& enemy : enemies)
+    {
+        enemy->Render();
     }
 }
 
@@ -138,13 +154,16 @@ void Game::handleInput()
             // Player will shoot
             player.fireBullet();
         }
+        if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_TRIGGER_1))
+            player.fireRocket();
 
     }
 }
 
 void Game::DeleteInactiveBullets()
 {
-    for (int i = 0; i < player.bulletsVector.size(); ++i) {
+    for (int i = 0; i < player.bulletsVector.size(); ++i)
+    {
         Projectile* projectile = player.bulletsVector[i];
 
         if (!projectile->isActive()) {
