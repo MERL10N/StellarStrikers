@@ -19,7 +19,8 @@ Enemy::Enemy(float screenWidth,  float screenHeight)
   shootCooldown(2.0f),
   dieTimer(1.0f),
   speed(100.0f),
-  rotation(0.0f)
+  rotation(0.0f),
+  shootingRange(200.f)
 {
     origin = {texture.width * 0.0025f, texture.height * 0.0025f};
 
@@ -51,28 +52,29 @@ void Enemy::Spawn(float &screenWidth, float &screenHeight)
             position = {screenWidth + (float)texture.width, (float)GetRandomValue(0, screenHeight)};
             break;
     }
-
-    TraceLog(LOG_INFO, "Enemy spawned at: (%f, %f)", position.x, position.y);
 }
 
-void Enemy::Update(float &deltaTime, const Vector2 &position)
+void Enemy::Update(float &deltaTime, const Vector2 &playerPosition)
 {
     if (!alive)
         return;
 
-    TraceLog(LOG_INFO, "Enemy state: %d", (int)currentState);
+    float distance = Vector2Distance(position, playerPosition);
+
+    if (distance <= shootingRange)
+      currentState = State::SHOOT;
+    else
+      currentState = State::CHASE;
+
     switch (currentState)
         {
         case State::CHASE:
-            TraceLog(LOG_INFO, "Enemy is in CHASE state.");
-            UpdateChase(position, deltaTime);
+            UpdateChase(playerPosition, deltaTime);
             break;
         case State::SHOOT:
-            TraceLog(LOG_INFO, "Enemy is in SHOOT state.");
-            UpdateShoot(deltaTime);
+            UpdateShoot(playerPosition, deltaTime);
             break;
         case State::DIE:
-            TraceLog(LOG_INFO, "Enemy is in DIE state.");
             UpdateDie(deltaTime);
             break;
     }
@@ -101,9 +103,28 @@ void Enemy::UpdateChase(const Vector2 &playerPosition, float deltaTime)
 
 }
 
-void Enemy::UpdateShoot(float &deltaTime)
+void Enemy::UpdateShoot(const Vector2 &playerPosition, float &deltaTime)
 {
+      velocity = Vector2Zero();
 
+      shootTimer += deltaTime;
+
+      if (shootTimer >= shootCooldown)
+      {
+         shootTimer = 0.0f;
+
+          bulletsVector.push_back(std::make_unique<Bullet>(position, rotation + 90));
+      }
+
+    // Update bullets
+    for (auto& bullet : bulletsVector) {
+        bullet->Update(deltaTime);
+    }
+    if (Vector2Distance(position, playerPosition) > shootingRange)
+    {
+        currentState = State::CHASE;
+    }
+  CleanUpBullets();
 }
 
 void Enemy::UpdateDie(float &deltaTime) {
@@ -130,9 +151,24 @@ void Enemy::Render() const
     DrawTexturePro(texture, sourceRect, destinationRect, center, rotation - 90, WHITE);
     EndBlendMode();
 
-    // Draw a red circle at the enemy's position for debugging
-    DrawCircle(position.x, position.y, 5, RED);
+    for (const auto& bullet : bulletsVector)
+    {
+        bullet->Render();
+    }
 }
 
+void Enemy::CleanUpBullets()
+{
+  for (auto it = bulletsVector.begin(); it != bulletsVector.end();)
+   {
+        if (!(*it)->isActive())
+        {
+            it = bulletsVector.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+   }
 
-
+}

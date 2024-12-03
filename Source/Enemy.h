@@ -6,6 +6,7 @@
 #include "projectile.h"
 #include "bullet.h"
 #include <vector>
+#include <memory>
 
 class Enemy
 {
@@ -33,7 +34,7 @@ public:
       float speed;
       State currentState;
 
-      std::vector<Projectile*> bulletsVector;
+      std::vector<std::unique_ptr<Projectile>> bulletsVector;
 
       Texture2D texture;
       Vector2 origin;
@@ -44,15 +45,16 @@ public:
       float shootTimer;
       float shootCooldown;
       float dieTimer;
+      float shootingRange;
 
       float rotation;
 
       void Spawn(float &screenWidth, float &screenHeight);
       void UpdateChase(const Vector2& playerPosition, float deltaTime);
-      void UpdateShoot(float &deltaTime);
+      void UpdateShoot(const Vector2 &playerPosition, float &deltaTime);
       void UpdateDie(float &deltaTime);
+      void CleanUpBullets();
 };
-
 
 
 #endif //ENEMY_H

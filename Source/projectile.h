@@ -17,7 +17,9 @@ public:
 
   virtual void Render() const;
 
-  inline bool isActive() const { return active; }
+  bool isActive() const { return active; }
+
+  Vector2 getPosition() const { return position; }
 
 protected:
   Vector2 position;

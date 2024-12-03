@@ -9,7 +9,7 @@ class RapidFirePowerup : public Powerup
   public:
     RapidFirePowerup(); // Default Constructor
     RapidFirePowerup(const Vector2& position, const float &scale, const char* assetPath); // Overloaded constructor
-    virtual ~RapidFirePowerup();
+    ~RapidFirePowerup() override;
     void activatePowerup(Player &player) override;
     void deactivatePowerup(Player &player) override;
     void updatePowerup(Player &player, float &deltaTime) override;
