@@ -2,8 +2,7 @@
 // Created by Kian Marvi on 11/29/24.
 //
 
-#ifndef ROCKET_H
-#define ROCKET_H
+#pragma once
 
 #include "projectile.h"
 #include "spriteAnimation.h"
@@ -23,5 +22,3 @@ private:
 };
 
 
-
-#endif //ROCKET_H

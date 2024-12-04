@@ -31,30 +31,29 @@ TEST(HealthTest,InputConstructor) {
 
 TEST(HealthTest, ReceiveDamage) {
     Health h(50);
-    h.receiveDamage();
+    h.receiveDamage(20);
     EXPECT_EQ(h.getHealth(), 30);
-    h.receiveDamage();
+    h.receiveDamage(30);
     EXPECT_EQ(h.getHealth(), 0);
 }
 
 TEST(HealthTest, ReceiveHealth) {
     Health h(50);
-    h.receiveHealth(30);
-    EXPECT_EQ(h.getHealth(), 80); //should fail as max health is 50
+    h.receiveHealth(30); 
+    EXPECT_EQ(h.getHealth(), 50); 
 
-    h.receiveDamage();
-    h.receiveDamage();
-    h.receiveDamage();
-    h.receiveDamage();
-    h.receiveDamage();
-    h.receiveHealth(50);
-    EXPECT_EQ(h.getHealth(), 100);
+    h.receiveDamage(10); 
+    h.receiveDamage(10); 
+    h.receiveDamage(10); 
+    EXPECT_EQ(h.getHealth(), 20); 
+    h.receiveHealth(50); 
+    EXPECT_EQ(h.getHealth(), 50); 
 }
 
 TEST(HealthTest, BoundaryValues) {
     Health h(100);
     for(int i = 0; i<11; i++){
-        h.receiveDamage();
+        h.receiveDamage(10);
     }
     EXPECT_EQ(h.getHealth(), 0);
 
