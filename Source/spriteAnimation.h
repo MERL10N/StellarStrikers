@@ -1,9 +1,9 @@
-#ifndef SPRITE_ANIMATION_H
-#define SPRITE_ANIMATION_H
+#pragma once
 
 #include "raylib.h"
 
-class SpriteAnimation {
+class SpriteAnimation
+{
 public:
     // Constructor
     SpriteAnimation(const char* filePath, int framesPerLine, int numLines, int fps);
@@ -41,4 +41,3 @@ private:
     bool active;               // Whether the animation is active
 };
 
-#endif // SPRITE_ANIMATION_H

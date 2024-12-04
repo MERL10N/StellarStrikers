@@ -2,8 +2,7 @@
 // Created by Kian Marvi on 11/16/24.
 //
 
-#ifndef POWERUP_H
-#define POWERUP_H
+#pragma once
 
 #include <raylib.h>
 #include "player.h"
@@ -20,4 +19,4 @@ class Powerup
     virtual Vector2 getPosition() = 0;
 };
 
-#endif //POWERUP_H
+

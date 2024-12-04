@@ -20,7 +20,8 @@ Enemy::Enemy(float screenWidth,  float screenHeight)
   dieTimer(1.0f),
   speed(100.0f),
   rotation(0.0f),
-  shootingRange(200.f)
+  shootingRange(200.f),
+  health(50)
 {
     origin = {texture.width * 0.0025f, texture.height * 0.0025f};
 
@@ -78,6 +79,13 @@ void Enemy::Update(float &deltaTime, const Vector2 &playerPosition)
             UpdateDie(deltaTime);
             break;
     }
+
+    // Update bullets
+    for (auto& bullet : bulletsVector) {
+        bullet->Update(deltaTime);
+    }
+
+    CleanUpBullets();
 }
 
 void Enemy::UpdateChase(const Vector2 &playerPosition, float deltaTime)
@@ -116,19 +124,14 @@ void Enemy::UpdateShoot(const Vector2 &playerPosition, float &deltaTime)
           bulletsVector.push_back(std::make_unique<Bullet>(position, rotation + 90));
       }
 
-    // Update bullets
-    for (auto& bullet : bulletsVector) {
-        bullet->Update(deltaTime);
-    }
+
     if (Vector2Distance(position, playerPosition) > shootingRange)
     {
         currentState = State::CHASE;
     }
-  CleanUpBullets();
 }
 
 void Enemy::UpdateDie(float &deltaTime) {
-
 }
 
 
@@ -151,6 +154,10 @@ void Enemy::Render() const
     DrawTexturePro(texture, sourceRect, destinationRect, center, rotation - 90, WHITE);
     EndBlendMode();
 
+
+    DrawText(TextFormat("Health: %d", health.getHealth()), position.x - 20, position.y - 40, 20, RED);
+
+
     for (const auto& bullet : bulletsVector)
     {
         bullet->Render();
@@ -171,4 +178,16 @@ void Enemy::CleanUpBullets()
         }
    }
 
+}
+
+Rectangle Enemy::getHitBox() const {
+    return {position.x - 31.475f, position.y - 33.725f, 62.95f, 67.45f};
+}
+
+std::vector<Projectile*> Enemy::getBullets() const {
+    std::vector<Projectile*> bulletPointers;
+    for (const auto& bullet : bulletsVector) {
+        bulletPointers.push_back(bullet.get()); 
+    }
+    return bulletPointers;
 }

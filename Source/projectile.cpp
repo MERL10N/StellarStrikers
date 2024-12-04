@@ -38,3 +38,7 @@ void Projectile::Render() const
         DrawTextureEx(texture, position, rotation - 90, 0.02, WHITE);
     }
 }
+
+Rectangle Projectile::getHitBox() const {
+    return {position.x - 12.81f, position.y - 2.82f, 25.62f, 5.64f};
+}

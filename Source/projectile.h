@@ -2,8 +2,7 @@
 // Created by Kian Marvi on 11/29/24.
 //
 
-#ifndef PROJECTILE_H
-#define PROJECTILE_H
+#pragma once
 
 #include <raylib.h>
 
@@ -21,6 +20,10 @@ public:
 
   Vector2 getPosition() const { return position; }
 
+  Rectangle getHitBox() const;
+
+  void Deactivate() { active = false; }
+
 protected:
   Vector2 position;
   float speed;
@@ -34,4 +37,3 @@ protected:
 
 
 
-#endif //PROJECTILE_H
