@@ -36,11 +36,50 @@ Game::~Game()
 void Game::update()
 {
     float deltaTime = GetFrameTime();
-    for(auto& bullet : player.bulletsVector)
-    {
+    
+    for (auto& bullet : player.bulletsVector) {
         bullet->Update(deltaTime);
     }
+
+    for (auto& bullet : player.bulletsVector) {
+        if (!bullet->isActive()) continue;
+
+        for (auto& enemy : enemies) {
+            if (enemy->IsAlive() && CheckCollisionRecs(bullet->getHitBox(), enemy->getHitBox())) {
+                Rocket* rocket = dynamic_cast<Rocket*>(bullet);
+                if (rocket) {
+                enemy->getHealthComponent().receiveDamage(50); // Rocket deals 50 damage
+                } else {
+                enemy->getHealthComponent().receiveDamage(10); // Bullet deals 10 damage
+                }                      
+                bullet->Deactivate();
+
+                if (enemy->getHealthComponent().getHealth() <= 0) {
+                    std::cout << "Enemy current health: " << enemy->getHealthComponent().getHealth() << std::endl; //testing delete later
+                    std::cout << "Enemy health reached 0. Setting state to DIE." << std::endl; //testing delete later
+                    enemy->setState(Enemy::State::DIE);
+                }
+            }
+        }
+    }
+
+    for (auto& enemy : enemies) {
+        for (auto& bullet : enemy->getBullets()) {
+            if (bullet->isActive() && CheckCollisionRecs(bullet->getHitBox(), player.getHitBox())) {
+                player.receiveDamage(10);
+                player.playHitSound(); 
+                bullet->Deactivate(); 
+                std::cout << "Player hit Health: " << player.getHealth() << std::endl;
+
+                if (player.getHealth() <= 0) {
+                    std::cout << "Player health is 0. impelmeent game over later" << std::endl;
+                }
+            }
+        }
+    }
+
     DeleteInactiveBullets();
+    
 
     // Check if powerup is not nullptr and it collides with player
     if (powerup && CheckCollisionRecs(player.getDestination(), powerup->getDestination()))
@@ -78,6 +117,7 @@ void Game::update()
     for (auto& enemy : enemies) {
         enemy->Update(deltaTime, player.getPosition());
     }
+    
 }
 
 void Game::draw()
@@ -179,4 +219,7 @@ void Game::DeleteInactiveBullets()
             }
         }
     }
+}
+
+void Game::gameOver() {
 }

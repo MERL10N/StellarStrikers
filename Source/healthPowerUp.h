@@ -2,8 +2,7 @@
 // Created by Kian Marvi on 11/16/24.
 //
 
-#ifndef HEALTHPOWERUP_H
-#define HEALTHPOWERUP_H
+#pragma once
 #include "powerup.h"
 
 class HealthPowerUp : public Powerup
@@ -29,4 +28,3 @@ class HealthPowerUp : public Powerup
     Sound powerUpSFX;
 };
 
-#endif //HEALTHPOWERUP_H

@@ -10,9 +10,11 @@ Player::Player()
   playerSprite(LoadTexture(ASSETS_PATH"player.png")),
   rotationSpeedMultiplier(10.f),
   bulletSFX(LoadSound(ASSETS_PATH "bulletSFX.mp3")),
+  hitSFX(LoadSound(ASSETS_PATH "hitSFX.mp3")),
   angleDifference(0.0f),
   lastFireTime(0.0),
-  fireRateMultiplier(1.0f)
+  fireRateMultiplier(1.0f),
+  health(100) 
 {
 }
 
@@ -20,6 +22,7 @@ Player::~Player()
 {
     UnloadTexture(playerSprite);
     UnloadSound(bulletSFX);
+    UnloadSound(hitSFX);
 }
 
 void Player::draw()
@@ -41,18 +44,29 @@ void Player::draw()
 
     // Draw the player sprite with rotation around its center
     DrawTexturePro(playerSprite, source, destination, center, rotation, WHITE);
+    DrawText(TextFormat("Health: %d", health.getHealth()), position.x - 20, position.y - 40, 20, GREEN);
 }
 
 void Player::moveForward()
 {
     position.x += sin(rotation * DEG2RAD) * moveSpeed;
     position.y -= cos(rotation * DEG2RAD) * moveSpeed;
+
+    if (position.x < 0) position.x = 0;
+    if (position.x > GetScreenWidth()) position.x = GetScreenWidth();
+    if (position.y < 0) position.y = 0;
+    if (position.y > GetScreenHeight()) position.y = GetScreenHeight();
 }
 
 void Player::moveBackward()
 {
     position.x -= sin(rotation * DEG2RAD) * moveSpeed;
     position.y += cos(rotation * DEG2RAD) * moveSpeed;
+
+    if (position.x < 0) position.x = 0;
+    if (position.x > GetScreenWidth()) position.x = GetScreenWidth();
+    if (position.y < 0) position.y = 0;
+    if (position.y > GetScreenHeight()) position.y = GetScreenHeight();
 }
 
 void Player::moveLeft()
@@ -101,6 +115,11 @@ void Player::moveWithController(const float &axisX, const float &axisY)
 
     position.x += sin(rotation * DEG2RAD) * moveSpeed;
     position.y -= cos(rotation * DEG2RAD) * moveSpeed;
+
+    if (position.x < 0) position.x = 0;
+    if (position.x > GetScreenWidth()) position.x = GetScreenWidth();
+    if (position.y < 0) position.y = 0;
+    if (position.y > GetScreenHeight()) position.y = GetScreenHeight();
 }
 void Player::setFireRate(const float &fireRateMultiplier)
 {
@@ -130,4 +149,13 @@ void Player::fireRocket()
 Rectangle Player::getDestination()
 {
     return destination;
+}
+
+
+Rectangle Player::getHitBox() const {
+    return {position.x - 35.025f, position.y - 36.225f, 70.05f, 72.45f}; 
+}
+
+void Player::playHitSound() const {
+    PlaySound(hitSFX);
 }
