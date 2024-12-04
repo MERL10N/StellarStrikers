@@ -1,27 +1,30 @@
 #include "Enemy.h"
-
+#include "bullet.h"
 #include <iostream>
 #include <raymath.h>
 
-Enemy::Enemy()
+Enemy::Enemy():
+explosionAnimation(ASSETS_PATH "explosion.png", 16, 1, 24)
 {
 }
 
 Enemy::Enemy(float screenWidth,  float screenHeight)
 :
+  alive(true),
+  hasExploded(false),
+  position{Vector2Zero()},
+  speed(100.0f),
+  currentState(State::CHASE),
+  health(50),
   texture(LoadTexture(ASSETS_PATH"enemy.png")),
-  position(position),
   screenWidth(screenWidth),
   screenHeight(screenHeight),
-  currentState(State::CHASE),
-  alive(true),
   shootTimer(0.0f),
   shootCooldown(2.0f),
   dieTimer(1.0f),
-  speed(100.0f),
-  rotation(0.0f),
   shootingRange(200.f),
-  health(50)
+  explosionAnimation( ASSETS_PATH"explosion.png", 16, 1, 24),
+  rotation(0.0f)
 {
     origin = {texture.width * 0.0025f, texture.height * 0.0025f};
 
@@ -30,42 +33,54 @@ Enemy::Enemy(float screenWidth,  float screenHeight)
 
 Enemy::~Enemy()
 {
-    UnloadTexture(texture);
+        UnloadTexture(texture);
 }
 
-void Enemy::Spawn(float &screenWidth, float &screenHeight)
+void Enemy::Spawn(const float &screenWidth, const float &screenHeight)
 {
     // Randomly pick an edge of the screen between 0-3;
-    int edgeOfScreen = GetRandomValue(0, 3);
 
-    switch (edgeOfScreen)
+    switch (GetRandomValue(0, 3))
         {
         case 0:
-            position = {(float)GetRandomValue(0, screenWidth), (float)-texture.height}; // Spawn on the top edge of the screen
+            position = {static_cast<float>(GetRandomValue(0, screenWidth)), static_cast<float>(-texture.height)}; // Spawn on the top edge of the screen
             break;
         case 1:
-            position = {(float)GetRandomValue(0, screenWidth), screenHeight + (float)texture.height};
+            position = {static_cast<float>(GetRandomValue(0, screenWidth)), screenHeight + static_cast<float>(texture.height)};
             break;
         case 2:
-            position = {-(float)texture.width, (float)GetRandomValue(0, screenHeight)};
+            position = {-static_cast<float>(texture.width), static_cast<float>(GetRandomValue(0, screenHeight))};
             break;
         case 3:
-            position = {screenWidth + (float)texture.width, (float)GetRandomValue(0, screenHeight)};
+            position = {screenWidth + static_cast<float>(texture.width), static_cast<float>(GetRandomValue(0, screenHeight))};
             break;
     }
 }
 
-void Enemy::Update(float &deltaTime, const Vector2 &playerPosition)
+void Enemy::Update(const float &deltaTime, const Vector2 &playerPosition)
 {
-    if (!alive)
-        return;
+    if (!alive && !hasExploded)
+    {
+        hasExploded = true;
+        // Adjust explosion position with offsets
+        float offsetX = 100.0f; // Adjust horizontally (positive moves right)
+        float offsetY = 100.0f; // Adjust vertically (positive moves down)
+        explosionPosition = { position.x + offsetX, position.y + offsetY };
+        explosionAnimation.Start(explosionPosition); // Start the explosion animation
 
+        explosionAnimation.Update();
+    }
     float distance = Vector2Distance(position, playerPosition);
 
-    if (distance <= shootingRange)
+    if (distance <= shootingRange && alive)
       currentState = State::SHOOT;
-    else
+    else if (distance > shootingRange && alive)
       currentState = State::CHASE;
+
+    if (health.getHealth() == 0 && alive)
+    {
+        currentState = State::DIE;
+    }
 
     switch (currentState)
         {
@@ -76,9 +91,13 @@ void Enemy::Update(float &deltaTime, const Vector2 &playerPosition)
             UpdateShoot(playerPosition, deltaTime);
             break;
         case State::DIE:
-            UpdateDie(deltaTime);
+            //UpdateDie();
+            alive = false;
             break;
-    }
+        default:
+            UpdateChase(playerPosition, deltaTime);
+            break;
+        }
 
     // Update bullets
     for (auto& bullet : bulletsVector) {
@@ -111,7 +130,7 @@ void Enemy::UpdateChase(const Vector2 &playerPosition, float deltaTime)
 
 }
 
-void Enemy::UpdateShoot(const Vector2 &playerPosition, float &deltaTime)
+void Enemy::UpdateShoot(const Vector2 &playerPosition, const float &deltaTime)
 {
       velocity = Vector2Zero();
 
@@ -131,14 +150,18 @@ void Enemy::UpdateShoot(const Vector2 &playerPosition, float &deltaTime)
     }
 }
 
-void Enemy::UpdateDie(float &deltaTime) {
+void Enemy::UpdateDie() const
+{
+    UnloadTexture(texture);
 }
 
 
 void Enemy::Render() const
 {
-    if (!alive)
-        return;
+    if (hasExploded)
+    {
+        explosionAnimation.Draw(explosionPosition, 1.5f); // Draw the explosion
+    }
 
     // Get the center of the enemy sprite
     Vector2 center = { texture.width * 0.025f, texture.height * 0.025f };
@@ -147,7 +170,7 @@ void Enemy::Render() const
     Rectangle destinationRect = { position.x, position.y, texture.width * 0.05f, texture.height * 0.05f};
 
     // Define the source rectangle for the texture
-    Rectangle sourceRect = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
+    Rectangle sourceRect = { 0.0f, 0.0f, static_cast<float>(texture.width), static_cast<float>(texture.height) };
 
     // Draw the player sprite with rotation around its center
     BeginBlendMode(BLEND_ALPHA);
@@ -155,8 +178,7 @@ void Enemy::Render() const
     EndBlendMode();
 
 
-    DrawText(TextFormat("Health: %d", health.getHealth()), position.x - 20, position.y - 40, 20, RED);
-
+    //DrawText(TextFormat("Health: %d", health.getHealth()), position.x - 20, position.y - 40, 20, RED);
 
     for (const auto& bullet : bulletsVector)
     {
@@ -174,7 +196,7 @@ void Enemy::CleanUpBullets()
         }
         else
         {
-            it++;
+            ++it;
         }
    }
 
@@ -184,9 +206,11 @@ Rectangle Enemy::getHitBox() const {
     return {position.x - 31.475f, position.y - 33.725f, 62.95f, 67.45f};
 }
 
-std::vector<Projectile*> Enemy::getBullets() const {
+std::vector<Projectile*> Enemy::getBullets() {
     std::vector<Projectile*> bulletPointers;
-    for (const auto& bullet : bulletsVector) {
+    bulletPointers.reserve(bulletsVector.size());
+for (const auto& bullet : bulletsVector)
+    {
         bulletPointers.push_back(bullet.get()); 
     }
     return bulletPointers;

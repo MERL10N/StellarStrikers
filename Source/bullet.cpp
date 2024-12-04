@@ -1,5 +1,4 @@
 #include "bullet.h"
-#include <math.h>
 
 Bullet::Bullet(const Vector2 &position, float rotation)
     :Projectile(position, rotation, 500.0f, 3.0f, ASSETS_PATH "playerbullet.png")
