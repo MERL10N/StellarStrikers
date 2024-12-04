@@ -4,7 +4,7 @@
 
 class Powerup;
 
-enum GameScreen { TITLE, GAMEPLAY };
+typedef enum GameScreen {TITLE, GAMEPLAY} GameScreen;
 
 class Game{
     public:
@@ -28,6 +28,5 @@ class Game{
         float leftStickAxisY;
         float leftStickDeadzoneX;
         float leftStickDeadzoneY;
-
         GameScreen currentScreen;
 };
