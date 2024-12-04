@@ -1,8 +1,6 @@
 #include "raylib.h"
 #include "gameManager.h"
 
-typedef enum GameScreen {TITLE, GAMEPLAY /*Add more screens later*/} GameScreen;
-
 int main()
 {
     int width = 1280;

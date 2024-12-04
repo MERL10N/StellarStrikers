@@ -15,8 +15,8 @@ int Health::getHealth() const{
     return currentHealth;
 }
 
-void Health::receiveDamage(){
-    currentHealth = std::max(0, currentHealth - 10);
+void Health::receiveDamage(int damage) {
+    currentHealth = std::max(0, currentHealth - damage);
 }
          
 void Health::receiveHealth(int received_health){

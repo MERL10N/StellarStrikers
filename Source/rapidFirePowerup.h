@@ -1,5 +1,4 @@
-#ifndef RAPIDFIREPOWERUP_H
-#define RAPIDFIREPOWERUP_H
+#pragma once
 #include "powerup.h"
 
 class Player;
@@ -30,4 +29,3 @@ class RapidFirePowerup : public Powerup
     Sound powerUpSFX;
 };
 
-#endif //RAPIDFIREPOWERUP_H

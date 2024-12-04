@@ -1,12 +1,11 @@
-
-#ifndef ENEMY_H
-#define ENEMY_H
+#pragma once
 #include <raylib.h>
 
 #include "projectile.h"
 #include "bullet.h"
 #include <vector>
 #include <memory>
+#include "health.h"
 
 class Enemy
 {
@@ -26,6 +25,11 @@ public:
     void Render() const;
 
     inline bool IsAlive() const { return alive; }
+    inline Health& getHealthComponent() { return health; }
+    inline void setState(State newState) { currentState = newState; }
+    Rectangle getHitBox() const; 
+    std::vector<Projectile*> getBullets() const;
+
 
     private:
       bool alive;
@@ -33,6 +37,7 @@ public:
       Vector2 velocity;
       float speed;
       State currentState;
+      Health health;
 
       std::vector<std::unique_ptr<Projectile>> bulletsVector;
 
@@ -57,4 +62,3 @@ public:
 };
 
 
-#endif //ENEMY_H

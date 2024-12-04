@@ -6,7 +6,7 @@ class Health
         Health();
         Health(int);
         int getHealth() const;
-        void receiveDamage();
+        void receiveDamage(int damage);
         void receiveHealth(int);
     private:
         int maxHealth;

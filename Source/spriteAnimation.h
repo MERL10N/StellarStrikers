@@ -1,5 +1,4 @@
-#ifndef SPRITE_ANIMATION_H
-#define SPRITE_ANIMATION_H
+#pragma once
 
 #include "raylib.h"
 
@@ -42,4 +41,3 @@ private:
     bool active;               // Whether the animation is active
 };
 
-#endif // SPRITE_ANIMATION_H
