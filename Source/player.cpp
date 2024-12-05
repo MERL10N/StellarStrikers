@@ -159,3 +159,9 @@ Rectangle Player::getHitBox() const {
 void Player::playHitSound() const {
     PlaySound(hitSFX);
 }
+
+void Player::reset() {
+    position = {100.0f, 250.0f}; 
+    rotation = 0.0f; 
+    health = 100; 
+}

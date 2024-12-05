@@ -191,3 +191,19 @@ std::vector<Projectile*> Enemy::getBullets() const {
     }
     return bulletPointers;
 }
+
+void Enemy::reset()
+{
+    // Reset health
+    health = 50;
+
+    // Reset state
+    alive = true;
+    currentState = State::CHASE;
+
+    // Clear bullets
+    bulletsVector.clear();
+
+    // Respawn at a random edge of the screen
+    Spawn(screenWidth, screenHeight);
+}

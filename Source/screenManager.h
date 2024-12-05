@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include "gameManager.h"
+#include "pauseMenu.h"
 
 class ScreenManager
 {
@@ -16,4 +17,6 @@ class ScreenManager
         Texture2D background;
         Game game;
         float scale;
+        PauseMenu pauseMenu; 
+        Rectangle pauseButton;
 };
