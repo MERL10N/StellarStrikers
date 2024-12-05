@@ -20,6 +20,8 @@ void ScreenManager::init()
     float scaleX = (float)width/background.width;
     float scaleY = (float)height/background.height;
     scale =  scaleX > scaleY ? scaleX : scaleY; // Scale the image to the window size
+
+    pauseButton = { (float)(width - 130), 20.0f, 90.0f, 40.0f }; 
 }
 
 void ScreenManager::update()
@@ -44,7 +46,36 @@ void ScreenManager::update()
         case GAMEPLAY:
             game.handleInput();
             game.update();
+
+            // Check for pause button click
+            if (CheckCollisionPointRec(GetMousePosition(), pauseButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                currentScreen = PAUSED;
+
             break;
+
+        case PAUSED:
+            {
+                bool goToHome = false; 
+                bool isPaused = false; 
+                bool resume = false; 
+
+                pauseMenu.handleInput(resume, goToHome);
+                if (!isPaused && !goToHome) {
+                   isPaused = true; 
+                }
+                
+                if (resume) {
+                    currentScreen = GAMEPLAY;
+                    resume = false; 
+                }
+
+                if (goToHome) {
+                    goToHome = false;
+                    game.reset(); 
+                    currentScreen = TITLE;
+                }
+            } break;
+
         default:
             break;
     }
@@ -70,6 +101,13 @@ void ScreenManager::draw()
         case GAMEPLAY:
             DrawTextureEx(background, Vector2{0, 0}, 0.0, scale, WHITE);
             game.draw();
+            
+            // Draw the pause button
+            DrawRectangleRec(pauseButton, LIGHTGRAY);
+            DrawText("Pause", pauseButton.x + 10, pauseButton.y + 10, 20, BLACK);
+            break;
+        case PAUSED:
+            pauseMenu.draw(); // Draw the pause menu
             break;
         default:
             break;
