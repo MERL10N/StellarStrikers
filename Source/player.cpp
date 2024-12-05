@@ -7,15 +7,15 @@ Player::Player()
   rotationSpeed(4.0f),
   moveSpeed(3.0f),
   targetRotation(0.0f),
-  playerSprite(LoadTexture(ASSETS_PATH"player.png")),
   rotationSpeedMultiplier(10.f),
-  bulletSFX(LoadSound(ASSETS_PATH "bulletSFX.mp3")),
-  hitSFX(LoadSound(ASSETS_PATH "hitSFX.mp3")),
   angleDifference(0.0f),
   lastFireTime(0.0),
   fireRateMultiplier(1.0f),
   health(100) 
 {
+    playerSprite = LoadTexture(ASSETS_PATH"player.png");
+    bulletSFX = LoadSound(ASSETS_PATH "bulletSFX.mp3");
+    hitSFX = LoadSound(ASSETS_PATH "hitSFX.mp3");
 }
 
 Player::~Player()

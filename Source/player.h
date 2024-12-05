@@ -24,7 +24,7 @@ class Player
         Rectangle getDestination();
         inline Vector2 getPosition() { return position; }
         std::vector<Projectile*> bulletsVector;
-        int getHealth() const { return health.getHealth(); }
+        int getHealth() { return health.getHealth(); }
         void receiveDamage(int damage) { health.receiveDamage(damage); }
         Rectangle getHitBox() const;
         void playHitSound() const;

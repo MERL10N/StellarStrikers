@@ -5,11 +5,11 @@
 #include "healthPowerUp.h"
 
 HealthPowerUp::HealthPowerUp()
-    : texture(LoadTexture(ASSETS_PATH"healthpowerup.png")),
-      position(Vector2{((float)GetScreenWidth() - (float)texture.width) * 0.25f, ((float)GetScreenHeight() - (float)texture.height)* 0.25f}),
-      scale(0.25f),
+    : scale(0.25f),
       powerUpSFX(LoadSound(ASSETS_PATH "powerUpSFX.mp3"))
 {
+  position = Vector2{(static_cast<float>(GetScreenWidth()) - static_cast<float>(texture.width)) * 0.25f, (static_cast<float>(GetScreenHeight()) - static_cast<float>(texture.height))* 0.25f};
+  texture = LoadTexture(ASSETS_PATH"healthpowerup.png");
 }
 
 HealthPowerUp::HealthPowerUp(const Vector2 &position, const float &scale, const char* assetPath)
@@ -31,7 +31,7 @@ HealthPowerUp::~HealthPowerUp()
 
 void HealthPowerUp::Draw()
 {
-  sourceRect = {0,0, (float)texture.width, (float)texture.height};
+  sourceRect = {0,0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
   destinationRect = {position.x - (texture.width * scale), position.y - (texture.height * scale), texture.width * scale, texture.height * scale};
   // Draw the health powerup sprite
    DrawTexturePro(texture, sourceRect, destinationRect, Vector2{0.f,0.f}, 0.f, WHITE);

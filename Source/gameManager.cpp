@@ -6,13 +6,13 @@
 #include <iostream>
 
 Game::Game()
-: gamepad(0),
+: powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png")),
+  rapidFirePowerup(new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, ASSETS_PATH"rapidfirepowerup.png")),
+  gamepad(0),
   leftStickAxisX(0.f),
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
-  leftStickDeadzoneY(0.1f),
-  powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png")),
-  rapidFirePowerup(new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, ASSETS_PATH"rapidfirepowerup.png"))
+  leftStickDeadzoneY(0.1f)
 {
     enemies.push_back(new Enemy(GetScreenWidth(), GetScreenHeight()));
 }
@@ -54,7 +54,8 @@ void Game::update()
                 }                      
                 bullet->Deactivate();
 
-                if (enemy->getHealthComponent().getHealth() <= 0) {
+                if (enemy->getHealthComponent().getHealth() <= 0)
+                {
                     std::cout << "Enemy current health: " << enemy->getHealthComponent().getHealth() << std::endl; //testing delete later
                     std::cout << "Enemy health reached 0. Setting state to DIE." << std::endl; //testing delete later
                     enemy->setState(Enemy::State::DIE);
@@ -64,7 +65,7 @@ void Game::update()
     }
 
     for (auto& enemy : enemies) {
-        for (auto& bullet : enemy->getBullets()) {
+        for (const auto& bullet : enemy->getBullets()) {
             if (bullet->isActive() && CheckCollisionRecs(bullet->getHitBox(), player.getHitBox())) {
                 player.receiveDamage(10);
                 player.playHitSound(); 
@@ -114,8 +115,20 @@ void Game::update()
         }
     }
 
-    for (auto& enemy : enemies) {
-        enemy->Update(deltaTime, player.getPosition());
+    for (auto it = enemies.begin(); it != enemies.end();)
+    {
+        (*it)->Update(deltaTime, player.getPosition());
+
+        if ((*it)->IsAlive() == false && (*it)->getHasExploded() == false)
+        {
+            delete (*it);
+            it = enemies.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+
     }
     
 }

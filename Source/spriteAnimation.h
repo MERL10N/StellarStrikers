@@ -27,9 +27,9 @@ public:
     void Reset();
 
 private:
-    Texture2D texture;         // Texture containing the sprite sheet
-    Rectangle frameRec;        // Rectangle for the current frame
-    Vector2 position;          // Position to draw the animation
+    Texture2D texture{};         // Texture containing the sprite sheet
+    Rectangle frameRec{};        // Rectangle for the current frame
+    Vector2 position{};          // Position to draw the animation
     int framesPerLine;         // Number of frames per line in the sprite sheet
     int numLines;              // Number of lines in the sprite sheet
     int fps;                   // Frames per second
