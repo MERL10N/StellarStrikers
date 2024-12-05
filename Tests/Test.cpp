@@ -9,12 +9,14 @@
 #include "../Source/rocket.h"
 
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
 
-TEST(HealthTest, NoinputConstructor) {
+TEST(HealthTest, NoinputConstructor)
+{
     auto* h = new Health();
     EXPECT_TRUE(h != nullptr);
 
@@ -210,7 +212,7 @@ TEST(RapidFirePowerupTest, CanCallDestructor)
 
 TEST(RapidFirePowerupTest, IsPowerupActive)
 {
-    auto* powerup = new RapidFirePowerup(Vector2{100, 200}, 1.0f, ASSETS_PATH"playerbullet.png");
+    auto* powerup = new RapidFirePowerup(Vector2{100, 200}, 1.0f, ASSETS_PATH"rapidfirepowerup.png");
     auto player = Player();
     powerup->activatePowerup(player);
     EXPECT_TRUE(powerup->getActive());
@@ -218,7 +220,7 @@ TEST(RapidFirePowerupTest, IsPowerupActive)
 
 TEST(RapidFirePowerupTest, IsPowerupInactive)
 {
-    auto* powerup = new RapidFirePowerup(Vector2{100, 200}, 1.0f, ASSETS_PATH"playerbullet.png");
+    auto* powerup = new RapidFirePowerup(Vector2{100, 200}, 1.0f, ASSETS_PATH"rapidfirepowerup.png");
     auto player = Player();
     powerup->activatePowerup(player);
     powerup->deactivatePowerup(player);
@@ -267,7 +269,7 @@ TEST(RocketTest, CanCallRocketConstructor)
 
 TEST(RocketTest, CanCallRocketDestructor)
 {
-    auto* rocket = new Rocket(Vector2{100, 200}, 0.0f);
+    const auto* rocket = new Rocket(Vector2{100, 200}, 0.0f);
     delete rocket;
     rocket = nullptr;
     EXPECT_TRUE(rocket == nullptr);

@@ -65,7 +65,7 @@ void Game::update()
     }
 
     for (auto& enemy : enemies) {
-        for (auto& bullet : enemy->getBullets()) {
+        for (const auto& bullet : enemy->getBullets()) {
             if (bullet->isActive() && CheckCollisionRecs(bullet->getHitBox(), player.getHitBox())) {
                 player.receiveDamage(10);
                 player.playHitSound(); 
@@ -115,8 +115,20 @@ void Game::update()
         }
     }
 
-    for (auto& enemy : enemies) {
-        enemy->Update(deltaTime, player.getPosition());
+    for (auto it = enemies.begin(); it != enemies.end();)
+    {
+        (*it)->Update(deltaTime, player.getPosition());
+
+        if ((*it)->IsAlive() == false && (*it)->getHasExploded() == false)
+        {
+            delete (*it);
+            it = enemies.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+
     }
     
 }

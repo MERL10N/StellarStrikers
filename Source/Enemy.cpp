@@ -54,22 +54,14 @@ void Enemy::Spawn(const float &screenWidth, const float &screenHeight)
         case 3:
             position = {screenWidth + static_cast<float>(texture.width), static_cast<float>(GetRandomValue(0, screenHeight))};
             break;
+
     }
 }
 
 void Enemy::Update(const float &deltaTime, const Vector2 &playerPosition)
 {
-    if (!alive && !hasExploded)
-    {
-        hasExploded = true;
-        // Adjust explosion position with offsets
-        float offsetX = 100.0f; // Adjust horizontally (positive moves right)
-        float offsetY = 100.0f; // Adjust vertically (positive moves down)
-        explosionPosition = { position.x + offsetX, position.y + offsetY };
-        explosionAnimation.Start(explosionPosition); // Start the explosion animation
 
-        explosionAnimation.Update();
-    }
+
     float distance = Vector2Distance(position, playerPosition);
 
     if (distance <= shootingRange && alive)
@@ -80,6 +72,7 @@ void Enemy::Update(const float &deltaTime, const Vector2 &playerPosition)
     if (health.getHealth() == 0 && alive)
     {
         currentState = State::DIE;
+        alive = false;
     }
 
     switch (currentState)
@@ -91,8 +84,8 @@ void Enemy::Update(const float &deltaTime, const Vector2 &playerPosition)
             UpdateShoot(playerPosition, deltaTime);
             break;
         case State::DIE:
-            //UpdateDie();
             alive = false;
+            Despawn();
             break;
         default:
             UpdateChase(playerPosition, deltaTime);
@@ -150,17 +143,35 @@ void Enemy::UpdateShoot(const Vector2 &playerPosition, const float &deltaTime)
     }
 }
 
-void Enemy::UpdateDie() const
+void Enemy::Despawn()
 {
-    UnloadTexture(texture);
+    if (!alive && !hasExploded)
+    {
+        hasExploded = true;
+        // Adjust explosion position with offsets
+        float offsetX = 100.0f; // Adjust horizontally (positive moves right)
+        float offsetY = 100.0f; // Adjust vertically (positive moves down)
+        explosionPosition = { position.x + offsetX, position.y + offsetY };
+        explosionAnimation.Start(explosionPosition); // Start the explosion animation
+
+    }
+
+    if (hasExploded)
+    {
+        explosionAnimation.Update();
+        if (!explosionAnimation.IsActive())
+        {
+            hasExploded = false;
+        }
+    }
 }
 
-
-void Enemy::Render() const
+void Enemy::Render()
 {
     if (hasExploded)
     {
         explosionAnimation.Draw(explosionPosition, 1.5f); // Draw the explosion
+        return;
     }
 
     // Get the center of the enemy sprite
@@ -178,7 +189,7 @@ void Enemy::Render() const
     EndBlendMode();
 
 
-    //DrawText(TextFormat("Health: %d", health.getHealth()), position.x - 20, position.y - 40, 20, RED);
+    DrawText(TextFormat("Health: %d", health.getHealth()), position.x - 20, position.y - 40, 20, RED);
 
     for (const auto& bullet : bulletsVector)
     {

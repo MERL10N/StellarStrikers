@@ -20,9 +20,10 @@ public:
     ~Enemy();
 
     void Update(const float &deltaTime, const Vector2& position);
-    void Render() const;
+    void Render();
 
     inline bool IsAlive() const { return alive; }
+    inline bool getHasExploded() const { return hasExploded; }
     inline Health& getHealthComponent() { return health; }
     inline void setState(State newState) { currentState = newState; }
     inline State getState() { return currentState; }
@@ -60,7 +61,7 @@ public:
       void Spawn(const float &screenWidth, const float &screenHeight);
       void UpdateChase(const Vector2& playerPosition, float deltaTime);
       void UpdateShoot(const Vector2 &playerPosition, const float &deltaTime);
-      void UpdateDie() const;
+      void Despawn();
       void CleanUpBullets();
 };
 
