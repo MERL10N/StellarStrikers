@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include "gameManager.h"
+#include "screenManager.h"
+
 
 int main()
 {
@@ -9,67 +11,15 @@ int main()
     InitAudioDevice();
     SetTargetFPS(60);
     
-
-    Texture2D background = LoadTexture(ASSETS_PATH "background.png");
-    Game game;
-
-    GameScreen currentScreen = TITLE;
-
-    // Scaling factor for background image
-    float scaleX = (float)width/background.width;
-    float scaleY = (float)height/background.height;
-    float scale =  scaleX > scaleY ? scaleX : scaleY; // Scale the image to the window size
-
+    ScreenManager screenManager(width, height);
+    screenManager.init();
 
     while (!WindowShouldClose())
     {
-        switch(currentScreen)
-        {
-            case TITLE:
-            {
-                //Update with different methods of entering gameplay screen
-                if (IsKeyPressed(KEY_ENTER))
-                    currentScreen = GAMEPLAY;
-                if (IsGamepadAvailable(0))
-                {
-                    if (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
-                        currentScreen = GAMEPLAY;
-                }
-            } break;
-            case GAMEPLAY:
-            {
-
-            } break;
-            default: break;
-        }
-        
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-
-        switch(currentScreen)
-        {
-            case TITLE:
-            {
-                DrawTextureEx(background, Vector2{0, 0}, 0.0, scale, WHITE);
-                DrawText("PRESS ENTER TO START GAME", 360, 360, 30, WHITE);
-                DrawText("STELLAR STRIKERS", 300, 160, 60, WHITE);
-            } break;
-            case GAMEPLAY:
-            {
-                game.handleInput();
-                game.update();
-
-                DrawTextureEx(background, Vector2{0, 0}, 0.0, scale, WHITE);
-                game.draw();
-            } break;
-            default: break;
-        }
-
-        EndDrawing();
+        screenManager.update();
+        screenManager.draw();
     }
 
-    // Free textures from GPU memory
-    UnloadTexture(background);
     CloseAudioDevice();
     CloseWindow();
 

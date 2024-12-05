@@ -4,7 +4,7 @@
 
 class Powerup;
 
-enum GameScreen { TITLE, GAMEPLAY };
+typedef enum GameScreen {TITLE, GAMEPLAY, PAUSED} GameScreen;
 
 class Game{
     public:
@@ -14,7 +14,7 @@ class Game{
         void update();
         void handleInput();
         void gameOver(); //temporary for when the player dies change the code when post game screen is added
-
+        void reset(); 
     private: 
         void DeleteInactiveBullets();
         Player player;
@@ -28,6 +28,5 @@ class Game{
         float leftStickAxisY;
         float leftStickDeadzoneX;
         float leftStickDeadzoneY;
-
         GameScreen currentScreen;
 };

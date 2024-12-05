@@ -28,7 +28,10 @@ public:
     inline void setState(State newState) { currentState = newState; }
     inline State getState() { return currentState; }
     Rectangle getHitBox() const; 
+
     std::vector<Projectile*> getBullets();
+    void reset();
+
 
 
     private:

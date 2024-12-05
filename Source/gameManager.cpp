@@ -234,5 +234,29 @@ void Game::DeleteInactiveBullets()
     }
 }
 
+void Game::reset() {
+     // Reset all enemies
+    for (auto& enemy : enemies) {
+        if (enemy) {
+            enemy->reset();
+        }
+    }
+
+    player.reset();
+
+    if (powerup) {
+        delete powerup;
+        powerup = nullptr;
+    }
+    powerup = new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20, "Assets/healthpowerup.png");
+
+    if (rapidFirePowerup) {
+        delete rapidFirePowerup;
+        rapidFirePowerup = nullptr;
+    }
+    rapidFirePowerup = new RapidFirePowerup(Vector2{GetScreenWidth() * 0.25f, GetScreenHeight() * 0.25f}, 0.25f, "Assets/rapidfirepowerup.png");
+
+}
+
 void Game::gameOver() {
 }

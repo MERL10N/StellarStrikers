@@ -28,6 +28,7 @@ class Player
         void receiveDamage(int damage) { health.receiveDamage(damage); }
         Rectangle getHitBox() const;
         void playHitSound() const;
+        void reset(); 
     private:
         Texture2D playerSprite;
         Health health;
