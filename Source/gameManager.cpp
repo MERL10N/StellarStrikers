@@ -248,7 +248,7 @@ void Game::reset() {
         delete powerup;
         powerup = nullptr;
     }
-    powerup = new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 20, "Assets/healthpowerup.png");
+    powerup = new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, "Assets/healthpowerup.png");
 
     if (rapidFirePowerup) {
         delete rapidFirePowerup;
