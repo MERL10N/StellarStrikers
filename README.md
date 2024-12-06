@@ -111,5 +111,24 @@
  ```
 
  ## Testing
- > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
+ For our project, we implemented unit testing using the Google Test Framework. These tests cover various components of the project, including the Health class, Player class, Enemy Class, Powerup Classes, Game class, and Projectile classes. 
+
+ 1. Health Class:
+ * Tested creating Health objects, taking damage, healing, and handling edge cases like health limits.
+
+ 2. Player Class:
+ * Verified player position, health updates, and proper memory management with constructors and destructors.
+
+ 3. Enemy Class:
+ * Tested state transitions (SHOOT, CHASE, DIE), bullet handling, and enemy life status.
+
+ 4. Powerup Classes:
+ * HealthPowerUp: Checked activation, deactivation, and memory management.
+ * RapidFirePowerup: Tested activation, deactivation, and initialization with position and texture.
+
+ 5. Game class: 
+ * Verified the creation and cleanup of the Game object.
+
+ 6. Projectile Classes: 
+ * Ensured proper creation, direction initialization, and cleanup for Bullet and Rocket.
  
