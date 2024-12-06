@@ -51,7 +51,8 @@
 
 ## Class Diagram
 
-<img width="430" alt="image" src="https://github.com/user-attachments/assets/71727089-ea46-4556-89d3-dc9c85d651dd">
+![Class_Diagram drawio](https://github.com/user-attachments/assets/6cfc5a3c-4556-45cd-b36d-4779d94108df)
+
 
 
 - Main Menu is where the program will start and it will generate the gameManager as well as provide a way to exit the game window or start the game
