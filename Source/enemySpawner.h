@@ -3,14 +3,20 @@
 #include "Enemy.h"
 class EnemySpawner
 {
-    public:
-      EnemySpawner(float interval, std::vector<Enemy*> &enemies);
-      void update(float deltaTime);
+   public:
+    EnemySpawner(float interval);
+    ~EnemySpawner();
+    void setEnemiesToSpawn(int count);
+    void update(float deltaTime, const Vector2 &playerPosition);
+    void draw();
+    void reset();
+    std::vector<Enemy*>& getEnemies() { return enemies; }
 
-    private:
+   private:
+    int enemiesToSpawn;
     float enemySpawnTimer;
     float enemySpawnInterval;
-    std::vector<Enemy*> &enemies;
+    std::vector<Enemy*> enemies;
 };
 
 

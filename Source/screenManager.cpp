@@ -119,6 +119,7 @@ void ScreenManager::draw()
             // Draw the pause button
             DrawRectangleRec(pauseButton, LIGHTGRAY);
             DrawText("Pause", pauseButton.x + 10, pauseButton.y + 10, 20, BLACK);
+
             break;
         case PAUSED:
             pauseMenu.draw(); // Draw the pause menu

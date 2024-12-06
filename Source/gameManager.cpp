@@ -12,11 +12,10 @@ Game::Game()
   leftStickAxisX(0.f),
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
-  leftStickDeadzoneY(0.1f),
-  enemySpawner(new EnemySpawner(5.f, enemies))
-
+  leftStickDeadzoneY(0.1f)
 {
-
+    enemySpawner = new EnemySpawner(1.f);
+    waveManager = new WaveManager(enemySpawner, 3.f);
 }
 
 Game::~Game()
@@ -30,18 +29,18 @@ Game::~Game()
     if (enemySpawner)
         delete enemySpawner;
 
-    for (auto enemy : enemies)
-    {
-        delete enemy;
-    }
-    enemies.clear();
+    if (waveManager)
+        delete waveManager;
+
 
 }
 
 void Game::update()
 {
     float deltaTime = GetFrameTime();
-    enemySpawner->update(deltaTime);
+
+    waveManager->update(deltaTime, player.getPosition());
+
     for (auto& bullet : player.bulletsVector) {
         bullet->Update(deltaTime);
     }
@@ -49,7 +48,7 @@ void Game::update()
     for (auto& bullet : player.bulletsVector) {
         if (!bullet->isActive()) continue;
 
-        for (auto& enemy : enemies) {
+        for (auto& enemy : enemySpawner->getEnemies()) {
             if (enemy->IsAlive() && CheckCollisionRecs(bullet->getHitBox(), enemy->getHitBox())) {
                 Rocket* rocket = dynamic_cast<Rocket*>(bullet);
                 if (rocket) {
@@ -69,7 +68,7 @@ void Game::update()
         }
     }
 
-    for (auto& enemy : enemies) {
+    for (auto& enemy : enemySpawner->getEnemies()) {
         for (const auto& bullet : enemy->getBullets()) {
             if (bullet->isActive() && CheckCollisionRecs(bullet->getHitBox(), player.getHitBox())) {
                 player.receiveDamage(10);
@@ -88,8 +87,6 @@ void Game::update()
     {
         delete powerup;
         powerup = nullptr;
-
-        // TODO: Recover health of the player back to full health
 
         player.receiveHealth(100);
     }
@@ -113,14 +110,14 @@ void Game::update()
         }
     }
 
-    for (auto it = enemies.begin(); it != enemies.end();)
+    for (auto it = enemySpawner->getEnemies().begin(); it != enemySpawner->getEnemies().end();)
     {
         (*it)->Update(deltaTime, player.getPosition());
 
         if ((*it)->IsAlive() == false && (*it)->getHasExploded() == false)
         {
             delete (*it);
-            it = enemies.erase(it);
+            it = enemySpawner->getEnemies().erase(it);
         }
         else
         {
@@ -150,10 +147,7 @@ void Game::draw()
         bullet->Render();
     }
 
-    for (auto& enemy : enemies)
-    {
-        enemy->Render();
-    }
+    enemySpawner->draw();
 }
 
 void Game::handleInput()
@@ -234,11 +228,8 @@ void Game::DeleteInactiveBullets()
 
 void Game::reset() {
      // Reset all enemies
-    for (auto& enemy : enemies) {
-        if (enemy) {
-            enemy->reset();
-        }
-    }
+    enemySpawner->reset();
+
 
     player.reset();
 
