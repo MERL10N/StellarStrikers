@@ -22,3 +22,7 @@ void Health::receiveDamage(int damage) {
 void Health::receiveHealth(int received_health){
     currentHealth = std::min(maxHealth, currentHealth + received_health);
 }
+
+void Health::resetHealth() {
+    currentHealth = maxHealth; 
+}

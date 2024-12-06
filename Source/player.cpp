@@ -165,3 +165,7 @@ void Player::reset() {
     rotation = 0.0f; 
     health = 100; 
 }
+
+void Player::recoverFullHealth() {
+    health.resetHealth(); 
+}

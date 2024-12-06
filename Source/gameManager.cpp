@@ -89,7 +89,7 @@ void Game::update()
         powerup = nullptr;
 
         // TODO: Recover health of the player back to full health
-
+        player.recoverFullHealth(); 
         /*
          *   example:
          *   player.setHealth(100);
