@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include "gameManager.h"
 #include "pauseMenu.h"
+#include "Leaderboard.h"
 
 class ScreenManager
 {
@@ -19,4 +20,5 @@ class ScreenManager
         float scale;
         PauseMenu pauseMenu; 
         Rectangle pauseButton;
+        Leaderboard test1;
 };

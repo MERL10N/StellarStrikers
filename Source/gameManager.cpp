@@ -4,6 +4,7 @@
 
 #include "rapidFirePowerup.h"
 #include <iostream>
+#include <memory>
 
 Game::Game()
 : powerup(new HealthPowerUp(Vector2{GetScreenWidth() * 0.5f, GetScreenHeight() * 0.5f}, 0.25f, ASSETS_PATH"healthpowerup.png")),
@@ -14,7 +15,7 @@ Game::Game()
   leftStickDeadzoneX(0.1f),
   leftStickDeadzoneY(0.1f)
 {
-    enemies.push_back(new Enemy(GetScreenWidth(), GetScreenHeight()));
+    enemies.push_back(std::make_unique <Enemy>(GetScreenWidth(), GetScreenHeight()));
 }
 
 Game::~Game()
@@ -25,10 +26,10 @@ Game::~Game()
     if (rapidFirePowerup)
         delete rapidFirePowerup;
 
-    for (auto enemy : enemies)
-    {
-        delete enemy;
-    }
+    // for (auto enemy : enemies)
+    // {
+    //     delete enemy;
+    // }
     enemies.clear();
 
 }
@@ -36,6 +37,7 @@ Game::~Game()
 void Game::update()
 {
     float deltaTime = GetFrameTime();
+    std::vector<std::unique_ptr<Enemy>> newEnemies;
     
     for (auto& bullet : player.bulletsVector) {
         bullet->Update(deltaTime);
@@ -61,7 +63,21 @@ void Game::update()
                     enemy->setState(Enemy::State::DIE);
                 }
             }
+            if (!enemy->IsAlive() && newEnemies.empty()) {
+                curScore.addscore();
+                newEnemies.push_back(std::make_unique<Enemy>(GetScreenWidth(), GetScreenHeight()));
+            }
         }
+        enemies.erase(
+            std::remove_if(enemies.begin(), enemies.end(),
+                   [](const std::unique_ptr<Enemy>& enemy) {
+                       return !enemy->IsAlive(); // Remove all dead enemies
+                   }),
+        enemies.end());
+        enemies.insert(enemies.end(),
+                   std::make_move_iterator(newEnemies.begin()),
+                   std::make_move_iterator(newEnemies.end()));
+        newEnemies.clear();
     }
 
     for (auto& enemy : enemies) {
@@ -74,6 +90,10 @@ void Game::update()
 
                 if (player.getHealth() <= 0) {
                     std::cout << "Player health is 0. impelmeent game over later" << std::endl;
+                    board.LoadFromFile();
+                    board.AddPlayerScore(curScore.viewScore());
+                    board.SortLeaderboard();
+                    board.SaveToFile();
                 }
             }
         }
@@ -121,7 +141,7 @@ void Game::update()
 
         if ((*it)->IsAlive() == false && (*it)->getHasExploded() == false)
         {
-            delete (*it);
+            // delete (*it);
             it = enemies.erase(it);
         }
         else

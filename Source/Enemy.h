@@ -5,6 +5,7 @@
 #include <vector>
 #include "health.h"
 #include "spriteAnimation.h"
+#include <memory>
 
 class Enemy
 {

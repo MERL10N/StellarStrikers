@@ -1,10 +1,13 @@
 #pragma once
 #include "player.h"
 #include "Enemy.h"
+#include "score.h"
+#include <vector>
+#include "Leaderboard.h"
 
 class Powerup;
 
-typedef enum GameScreen {TITLE, GAMEPLAY, PAUSED, GAMEOVER} GameScreen;
+typedef enum GameScreen {TITLE, GAMEPLAY, PAUSED, GAMEOVER, SCOREBOARD} GameScreen;
 
 class Game{
     public:
@@ -20,8 +23,12 @@ class Game{
         Player player;
         Powerup* powerup;
         Powerup* rapidFirePowerup;
+        Leaderboard board;
 
-        std::vector<Enemy*> enemies;
+        // std::vector<Enemy*> enemies;
+        std::vector<std::unique_ptr<Enemy>> enemies;
+
+        Score curScore;
         
         int gamepad;
         float leftStickAxisX;

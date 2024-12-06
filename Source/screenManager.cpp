@@ -83,12 +83,22 @@ void ScreenManager::update()
         case GAMEOVER:
         {
             Rectangle returnHomeButton = { (float)(width / 2 - 100), (float)(height / 2 + 50), 200, 50 };
+            Rectangle viewLeader = {(float)(width / 2 - 100), (float)(height / 2 + 110), 200, 50 };
 
             if (CheckCollisionPointRec(GetMousePosition(), returnHomeButton) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
                 game.reset(); // Reset game state
                 currentScreen = TITLE; // Go back to the title screen
             }
+            if (CheckCollisionPointRec(GetMousePosition(), viewLeader) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                game.reset(); // Reset game state
+                currentScreen = SCOREBOARD; // Go back to the title screen
+            }
         } break;
+        // case SCOREBOARD:
+        // {
+        //     test1.LoadFromFile();
+        //     test1.DrawLeaderboard(width / 4, height / 4);
+        // } break;
 
         default:
             break;
@@ -132,8 +142,15 @@ void ScreenManager::draw()
             Rectangle returnHomeButton = { (float)(width / 2 - 100), (float)(height / 2 + 50), 200, 50 };
             DrawRectangleRec(returnHomeButton, WHITE);
             DrawText("RETURN HOME", (int)(returnHomeButton.x + 20), (int)(returnHomeButton.y + 15), 20, BLACK);
-        }
-break;
+
+            Rectangle viewLeaderButton = { (float)(width / 2 - 100), (float)(height / 2 + 110), 200, 50 };
+            DrawRectangleRec(viewLeaderButton, WHITE);
+            DrawText("VIEW LEADERBOARD", (int)(viewLeaderButton.x + 5), (int)(viewLeaderButton.y + 15), 20, BLACK);
+        }break;
+        case SCOREBOARD:
+            test1.LoadFromFile();
+            test1.DrawLeaderboard(width,height);
+            break;
 
 
 

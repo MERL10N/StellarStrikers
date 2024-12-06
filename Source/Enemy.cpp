@@ -241,4 +241,5 @@ void Enemy::reset()
 
     // Respawn at a random edge of the screen
     Spawn(screenWidth, screenHeight);
+    Render();
 }
