@@ -110,7 +110,10 @@ The SOLID principles help keep our development clean and save time for future de
 >  * Each team member should also submit the Individual Contributions Form on Canvas for this final phase. In this form, you need to fill in the names of all team members, the percentage of work contributed by each member for the final phase, and a description of their contributions. Remember that each team member should submit the form individually.
  
  ## Screenshots
- > Screenshots of the input/output after running your application
+ ![Main Menu](images/title.png)
+ ![Gameplay Screen](images/gameplay.png)
+ ![Pause Menu](images/pauseMenu.png)
+ ![Game Over Screen](imaggaes/title.png)
  ## Installation/Usage
  1. Clone the Repository: 
  * Open a terminal or command prompt and run the 
