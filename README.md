@@ -14,15 +14,19 @@
  >    * Language: C++
  >    * Library: Raylib (Graphics and Input) 
 
- > * Controls:
+ > * Controls (Mouse & Keyboard):
  >    * W - Move Up
  >    * S - Move Down
  >    * A - Move Left
  >    * D - Move Right
- >    * Space Key - Fire projectile
- >    * Escape Key - Pause Menu
- >    * Arrow Up/Down - Select menu button
- >    * Enter Key/Mouse click - Select menu button
+ >    * Space Key - Fire bullet
+ >    * Left Shift Key - Fire rocket
+ >    * Click pause button with left mouse click - Pause Menu
+ >    * Left Mouse click in main menu - Select menu button
+ > *   Controls (Gamepad)
+ >     *  Left analog stick - Move Up/Down/Left/Right
+ >     *  Right Trigger - Fire Bullet
+ >     *  Left Trigger  - Fire Rocket
 
  > * Proposed features:
  >   * Scoring System
