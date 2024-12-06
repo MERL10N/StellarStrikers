@@ -11,7 +11,6 @@ explosionAnimation(ASSETS_PATH "explosion.png", 16, 1, 24)
 Enemy::Enemy(float screenWidth,  float screenHeight)
 :
   alive(true),
-  hasExploded(false),
   position{Vector2Zero()},
   speed(100.0f),
   currentState(State::CHASE),
@@ -19,12 +18,10 @@ Enemy::Enemy(float screenWidth,  float screenHeight)
   texture(LoadTexture(ASSETS_PATH"enemy.png")),
   screenWidth(screenWidth),
   screenHeight(screenHeight),
-  shootTimer(0.0f),
   shootCooldown(2.0f),
   dieTimer(1.0f),
   shootingRange(200.f),
-  explosionAnimation( ASSETS_PATH"explosion.png", 16, 1, 24),
-  rotation(0.0f)
+  explosionAnimation( ASSETS_PATH"explosion.png", 16, 1, 24)
 {
     origin = {texture.width * 0.0025f, texture.height * 0.0025f};
 
@@ -149,8 +146,8 @@ void Enemy::Despawn()
     {
         hasExploded = true;
         // Adjust explosion position with offsets
-        float offsetX = 100.0f; // Adjust horizontally (positive moves right)
-        float offsetY = 100.0f; // Adjust vertically (positive moves down)
+        constexpr float offsetX = 100.0f; // Adjust horizontally (positive moves right)
+        constexpr float offsetY = 100.0f; // Adjust vertically (positive moves down)
         explosionPosition = { position.x + offsetX, position.y + offsetY };
         explosionAnimation.Start(explosionPosition); // Start the explosion animation
 
@@ -178,14 +175,14 @@ void Enemy::Render()
     Vector2 center = { texture.width * 0.025f, texture.height * 0.025f };
 
     // Define the destination rectangle for positioning and scaling
-    Rectangle destinationRect = { position.x, position.y, texture.width * 0.05f, texture.height * 0.05f};
+    Rectangle destinationRectangle = { position.x, position.y, texture.width * 0.05f, texture.height * 0.05f};
 
     // Define the source rectangle for the texture
-    Rectangle sourceRect = { 0.0f, 0.0f, static_cast<float>(texture.width), static_cast<float>(texture.height) };
+    Rectangle sourceRectangle = { 0.0f, 0.0f, static_cast<float>(texture.width), static_cast<float>(texture.height) };
 
     // Draw the player sprite with rotation around its center
     BeginBlendMode(BLEND_ALPHA);
-    DrawTexturePro(texture, sourceRect, destinationRect, center, rotation - 90, WHITE);
+    DrawTexturePro(texture, sourceRectangle, destinationRectangle, center, rotation - 90, WHITE);
     EndBlendMode();
 
 

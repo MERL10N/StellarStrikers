@@ -1,6 +1,7 @@
 #pragma once
 #include "player.h"
-#include "Enemy.h"
+#include "waveManager.h"
+#include "enemySpawner.h"
 
 class Powerup;
 
@@ -21,8 +22,8 @@ class Game{
         Powerup* powerup;
         Powerup* rapidFirePowerup;
 
-        std::vector<Enemy*> enemies;
-        
+        EnemySpawner* enemySpawner;
+        WaveManager* waveManager;
         int gamepad;
         float leftStickAxisX;
         float leftStickAxisY;
