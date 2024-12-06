@@ -51,6 +51,10 @@ void ScreenManager::update()
             if (CheckCollisionPointRec(GetMousePosition(), pauseButton) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 currentScreen = PAUSED;
 
+            if(game.gameOver()) {
+                currentScreen = GAMEOVER; 
+            }
+
             break;
 
         case PAUSED:
@@ -75,6 +79,16 @@ void ScreenManager::update()
                     currentScreen = TITLE;
                 }
             } break;
+
+        case GAMEOVER:
+        {
+            Rectangle returnHomeButton = { (float)(width / 2 - 100), (float)(height / 2 + 50), 200, 50 };
+
+            if (CheckCollisionPointRec(GetMousePosition(), returnHomeButton) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+                game.reset(); // Reset game state
+                currentScreen = TITLE; // Go back to the title screen
+            }
+        } break;
 
         default:
             break;
@@ -109,6 +123,20 @@ void ScreenManager::draw()
         case PAUSED:
             pauseMenu.draw(); // Draw the pause menu
             break;
+        case GAMEOVER:
+        {
+            DrawTextureEx(background, Vector2{0, 0}, 0.0, scale, WHITE);
+
+            DrawText("GAME OVER!", width / 2 - MeasureText("GAME OVER!", 60) / 2, height / 2 - 100, 60, RED);
+
+            Rectangle returnHomeButton = { (float)(width / 2 - 100), (float)(height / 2 + 50), 200, 50 };
+            DrawRectangleRec(returnHomeButton, WHITE);
+            DrawText("RETURN HOME", (int)(returnHomeButton.x + 20), (int)(returnHomeButton.y + 15), 20, BLACK);
+        }
+break;
+
+
+
         default:
             break;
     }

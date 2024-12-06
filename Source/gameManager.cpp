@@ -258,5 +258,11 @@ void Game::reset() {
 
 }
 
-void Game::gameOver() {
+bool Game::gameOver() {
+    if (player.getHealth() == 0) {
+        return true; 
+    } else {
+        return false; 
+    }
+
 }
