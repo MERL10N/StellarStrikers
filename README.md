@@ -60,7 +60,8 @@
 -weapon is an aggregate of player and enemy and contains details on the statistics and operations of the attack
 -PowerUp is a dependency of Player and contains details on various powerups that can be applied to the player. It keeps track of the position of powerUps as well
 
- S.O.L.I.D Applied
+S.O.L.I.D Applied
+
 We applied many SOLID principles throughout our program. Luckily, because it was logical to do so, many parts of the design already followed the SOLID principles
 Specific cases:
 
