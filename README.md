@@ -58,13 +58,17 @@
 - Main Menu is where the program will start and it will generate the gameManager as well as provide a way to exit the game window or start the game
 - GameManager will contain all components of the actual gameplay classes such as all subsequent menus + navigations and gameplay elements such as players and enemies
 - scoreboard is a part of the GameManager and displays scores for the round as well as cumulative score
-- PauseMenu is a part of the gameManager and will pause the game and provide options to resume, restart, and quit the game
-- GameOver is a part of gameManager and displays after the player loses. It will get the user's name and add it to the leaderboard that will display on screen. There are options to quit to mainMenu or to restart the Game.
+- PauseMenu is a part of the ScreenManager and will pause the game and provide options to resume, restart, and quit the game
 - Player is the user and is a part of the gameManager. Player will give details on the position and status of the user
 - Enemy is a part of the gameManager. Enemy will contain details on the position and status of an individual enemy
--weapon is an aggregate of player and enemy and contains details on the statistics and operations of the attack
+- projectile is an aggeragte of player and enemy and serves to establish superclass for different projectiles
+- bullet is a part of projectile and handles default fire mode
+- rocket is a aprt of projectile and handles alternate fire mode
 -PowerUp is a dependency of Player and contains details on various powerups that can be applied to the player. It keeps track of the position of powerUps as well
-
+-ScreenManager is a part of main and will handle different possible Screens as well as Game Over scenario
+-waveManager is a part of GameManager and handles wave logic
+-Health is an aggreagte of Player and Enemy and handles hleaht and damage logic
+ 
 S.O.L.I.D Applied
 
 We applied many SOLID principles throughout our program. Luckily, because it was logical to do so, many parts of the design already followed the SOLID principles
