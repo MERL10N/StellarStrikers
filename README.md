@@ -93,7 +93,23 @@
  ## Screenshots
  > Screenshots of the input/output after running your application
  ## Installation/Usage
- > Instructions on installing and running your application
+ 1. Clone the Repository: 
+ * Open a terminal or command prompt and run the 
+ following command to clone the repository
+ ```bash
+ git clone <repository_url>
+ ```
+ 2. Navigate to the Project Directory 
+ ```bash
+ cd <repository_folder>
+ ```
+ 3. Build/Run the Application
+ ```bash
+ cmake .
+ make
+ ./CS100_FinalProject
+ ```
+
  ## Testing
  > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
  
