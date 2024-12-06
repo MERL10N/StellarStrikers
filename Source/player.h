@@ -30,6 +30,7 @@ class Player
         Rectangle getHitBox() const;
         void playHitSound() const;
         void reset(); 
+        void recoverFullHealth(); 
     private:
         Texture2D playerSprite;
         Health health;

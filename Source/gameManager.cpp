@@ -87,7 +87,6 @@ void Game::update()
     {
         delete powerup;
         powerup = nullptr;
-
         player.receiveHealth(100);
     }
 
