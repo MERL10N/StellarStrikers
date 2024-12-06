@@ -26,6 +26,7 @@ class Player
         std::vector<Projectile*> bulletsVector;
         int getHealth() { return health.getHealth(); }
         void receiveDamage(int damage) { health.receiveDamage(damage); }
+        void receiveHealth(int healthBoost) { health.receiveHealth(healthBoost); }
         Rectangle getHitBox() const;
         void playHitSound() const;
         void reset(); 

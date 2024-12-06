@@ -12,9 +12,11 @@ Game::Game()
   leftStickAxisX(0.f),
   leftStickAxisY(0.f),
   leftStickDeadzoneX(0.1f),
-  leftStickDeadzoneY(0.1f)
+  leftStickDeadzoneY(0.1f),
+  enemySpawner(new EnemySpawner(5.f, enemies))
+
 {
-    enemies.push_back(new Enemy(GetScreenWidth(), GetScreenHeight()));
+
 }
 
 Game::~Game()
@@ -24,6 +26,9 @@ Game::~Game()
 
     if (rapidFirePowerup)
         delete rapidFirePowerup;
+
+    if (enemySpawner)
+        delete enemySpawner;
 
     for (auto enemy : enemies)
     {
@@ -36,7 +41,7 @@ Game::~Game()
 void Game::update()
 {
     float deltaTime = GetFrameTime();
-    
+    enemySpawner->update(deltaTime);
     for (auto& bullet : player.bulletsVector) {
         bullet->Update(deltaTime);
     }
@@ -71,10 +76,6 @@ void Game::update()
                 player.playHitSound(); 
                 bullet->Deactivate(); 
                 std::cout << "Player hit Health: " << player.getHealth() << std::endl;
-
-                if (player.getHealth() <= 0) {
-                    std::cout << "Player health is 0. impelmeent game over later" << std::endl;
-                }
             }
         }
     }
@@ -90,10 +91,7 @@ void Game::update()
 
         // TODO: Recover health of the player back to full health
 
-        /*
-         *   example:
-         *   player.setHealth(100);
-         * */
+        player.receiveHealth(100);
     }
 
     if (rapidFirePowerup && CheckCollisionRecs(player.getDestination(), rapidFirePowerup->getDestination()))

@@ -1,6 +1,7 @@
 #pragma once
 #include "player.h"
 #include "Enemy.h"
+#include "enemySpawner.h"
 
 class Powerup;
 
@@ -22,7 +23,7 @@ class Game{
         Powerup* rapidFirePowerup;
 
         std::vector<Enemy*> enemies;
-        
+        EnemySpawner* enemySpawner;
         int gamepad;
         float leftStickAxisX;
         float leftStickAxisY;
