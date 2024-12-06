@@ -97,17 +97,18 @@
  * Open a terminal or command prompt and run the 
  following command to clone the repository
  ```bash
- git clone <repository_url>
+ git clone --recurse-submodules  https://github.com/cs100/final-project-the-four-loops.git
  ```
  2. Navigate to the Project Directory 
  ```bash
- cd <repository_folder>
+ cd final-project-the-four-loops
  ```
  3. Build/Run the Application
  ```bash
  cmake .
  make
  ./CS100_FinalProject
+ ./CS100_FinalProject_tests
  ```
 
  ## Testing
