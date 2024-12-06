@@ -111,9 +111,12 @@ The SOLID principles help keep our development clean and save time for future de
  
  ## Screenshots
  ![Main Menu](images/title.png)
+
  ![Gameplay Screen](images/gameplay.png)
+
  ![Pause Menu](images/pauseMenu.png)
- ![Game Over Screen](imaggaes/title.png)
+
+ ![Game Over Screen](images/gameOver.png)
  ## Installation/Usage
  1. Clone the Repository: 
  * Open a terminal or command prompt and run the 
