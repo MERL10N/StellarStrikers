@@ -59,7 +59,21 @@
 - Enemy is a part of the gameManager. Enemy will contain details on the position and status of an individual enemy
 -weapon is an aggregate of player and enemy and contains details on the statistics and operations of the attack
 -PowerUp is a dependency of Player and contains details on various powerups that can be applied to the player. It keeps track of the position of powerUps as well
- 
+
+ S.O.L.I.D Applied
+We applied many SOLID principles throughout our program. Luckily, because it was logical to do so, many parts of the design already followed the SOLID principles
+Specific cases:
+
+Powerups Super Class contains core elements that will only be used in all sub-classes(L). Following the powerup Sub-Classes lead to the rapid fire and health power-up which both implement all derived parts while also adding their own unique functions (I)
+
+Each class in our program has a single purpose whether it is to manage gameplay elements, manage projectiles, or manage player (S).
+
+Because we are using superclasses to operate all parts of the game, future development can add more of anything they would like using sub-classes (O)
+
+Our game does not contain dependencies(D).
+
+The SOLID principles help keep our development clean and save time for future development. Through good use of classes, the game can be extended in any way whenever updates are pushed out.
+
  > ## Phase III
  > You will need to schedule a check-in for the second scrum meeting with the same reader you had your first scrum meeting with (using Calendly). Your entire team must be present. This meeting will occur on week 8 during lab time.
  
