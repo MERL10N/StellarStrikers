@@ -16,10 +16,9 @@ WaveManager::WaveManager(EnemySpawner* enemySpawner, float waveDelay)
 
 void WaveManager::update(float deltaTime, const Vector2 &playerPosition)
 {
+    waveTimer += deltaTime;
     if (!waveInProgress)
     {
-        waveTimer += deltaTime;
-
         if (waveTimer >= waveDelay)
         {
             std::cout << "[WaveManager] Starting Wave " << currentWave << "!\n";

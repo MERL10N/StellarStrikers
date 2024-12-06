@@ -227,8 +227,6 @@ void Game::DeleteInactiveBullets()
 }
 
 void Game::reset() {
-     // Reset all enemies
-    enemySpawner->reset();
 
 
     player.reset();

@@ -32,7 +32,7 @@ void EnemySpawner::update(float deltaTime, const Vector2 &playerPosition)
     {
         enemySpawnTimer = 0.f;
 
-       for (int i = 0; i < enemiesToSpawn - enemies.size(); ++i)
+       for (int i = 0; i < enemiesToSpawn; ++i)
         enemies.push_back(new Enemy(GetScreenWidth(), GetScreenHeight()));
     }
 
